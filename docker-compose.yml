@@ -1,0 +1,105 @@
+version: '3.8'
+services:
+  config-service:
+    image: arkit/cognizant-e-auction:config-service-docker-0.0.1
+    build: .
+    ports:
+      - "8088:8088"
+    restart: always
+#    depends_on:
+#      - discovery-service
+    networks:
+      - e-auction-network
+      
+  discovery-service:
+    image: arkit/cognizant-e-auction:discovery-service-docker-0.0.1
+    build: .
+    ports:
+      - "8001:8001"
+    restart: always
+    depends_on: 
+      - config-service
+    networks:
+      - e-auction-network
+      
+  gateway-service:
+    image: arkit/cognizant-e-auction:gateway-service-docker-0.0.1
+    build: .
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - config-service
+      - discovery-service
+    networks:
+      - e-auction-network
+      
+  seller-service:
+    image: arkit/cognizant-e-auction:seller-service-docker-0.0.1
+    build: .
+    ports:
+      - "8005:8005"
+    restart: always
+    depends_on:
+      - config-service
+      - discovery-service
+      - postgresdb 
+    networks:
+      - e-auction-network
+      
+      
+  product-service:
+    image: arkit/cognizant-e-auction:product-service-docker-0.0.1
+    build: .
+    ports:
+      - "8004:8004"
+    restart: always
+    depends_on:
+      - config-service
+      - discovery-service
+      - postgresdb 
+    networks:
+      - e-auction-network
+      
+  buyer-service:
+    image: arkit/cognizant-e-auction:buyer-service-docker-0.0.1
+    build: .
+    ports:
+      - "8002:8002"
+    restart: always
+    depends_on:
+      - config-service
+      - discovery-service
+      - postgresdb
+    networks:
+      - e-auction-network
+      
+  postgresdb:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - postgresdb:/var/lib/postgresql/data
+    networks:
+      - e-auction-network
+
+  axonserver:
+    image: axoniq/axonserver:latest-dev
+    hostname: axonserver
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+      - '8224:8224'
+    networks:
+      - e-auction-network
+      
+volumes:
+  postgresdb:
+    driver: local
+      
+networks:
+  e-auction-network:
