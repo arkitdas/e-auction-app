@@ -24,7 +24,7 @@ spring:
     import: "optional:configserver:http://localhost:8088"
 
 server:
-  port: 8080
+  port: 8090
   servlet:
     context-path: /gateway-service
         

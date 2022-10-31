@@ -26,7 +26,7 @@ services:
     image: arkit/cognizant-e-auction:gateway-service-docker-0.0.1
     build: .
     ports:
-      - "8080:8080"
+      - "8090:8090"
     restart: always
     depends_on:
       - config-service

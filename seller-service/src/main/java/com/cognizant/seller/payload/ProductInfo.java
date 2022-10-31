@@ -43,6 +43,6 @@ public class ProductInfo {
 	@NotNull( message = "Bid End Date cannot be null")
 	private Date bidEndDate;
 	
-	@NotNull( message = "Seller Details cannot be null")
+//	@NotNull( message = "Seller Details cannot be null")
 	private String sellerId;
 }
