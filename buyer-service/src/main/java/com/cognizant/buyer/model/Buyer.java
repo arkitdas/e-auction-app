@@ -29,7 +29,7 @@ import lombok.Setter;
 public class Buyer extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "buyer_id")
 	private String buyerId;
 	

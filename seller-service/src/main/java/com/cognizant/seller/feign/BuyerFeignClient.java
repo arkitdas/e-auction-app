@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.cognizant.seller.payload.ApiResponse;
 import com.cognizant.seller.payload.BidDetailResponseInfo;
 
-@FeignClient(url = "${seller.remote.services.buyer.url:#{null}}", name = "${seller.remote.services.buyer.name}", path = "/v1/buyer")
+@FeignClient(name = "${seller.remote.services.buyer.name}", path = "/buyer-service/v1/buyer")
 public interface BuyerFeignClient {
 
 	@GetMapping("/show-bids/{productId}")

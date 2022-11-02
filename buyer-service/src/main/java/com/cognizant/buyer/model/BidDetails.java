@@ -25,7 +25,7 @@ import lombok.Setter;
 public class BidDetails extends Auditable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String bidId;
 	
 	@Column(name = "productId")

@@ -15,7 +15,7 @@ import com.cognizant.seller.payload.ApiResponse;
 import com.cognizant.seller.payload.ProductInfo;
 import com.cognizant.seller.payload.ProductResponseInfo;
 
-@FeignClient(url = "${seller.remote.services.product.url:#{null}}", name = "${seller.remote.services.product.name}", path = "/v1/product")
+@FeignClient(name = "${seller.remote.services.product.name}", path = "/product-service/v1/product")
 public interface ProductsFeignClient {
 
     @PostMapping("/add")

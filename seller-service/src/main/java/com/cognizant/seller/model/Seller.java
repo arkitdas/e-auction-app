@@ -28,7 +28,7 @@ public class Seller extends Auditable {
 	private static final long serialVersionUID = 2601174294994353861L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String sellerId;
 	
 	@Column(name = "first_name")

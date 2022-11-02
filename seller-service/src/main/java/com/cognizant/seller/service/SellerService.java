@@ -33,10 +33,11 @@ public class SellerService {
 	private ProductClient productClient;
 	private SellerMapper sellerMapper;
 	
-	SellerService(SellerRepository sellerRepository, BuyerClient buyerClient,ProductClient productClient){
+	SellerService(SellerRepository sellerRepository, BuyerClient buyerClient,ProductClient productClient, SellerMapper sellerMapper){
 		this.sellerRepository = sellerRepository;
 		this.buyerClient = buyerClient;
 		this.productClient = productClient;
+		this.sellerMapper = sellerMapper;
 	}
 	
 	@Transactional

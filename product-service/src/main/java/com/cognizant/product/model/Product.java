@@ -24,8 +24,13 @@ import lombok.Setter;
 @Table(name = "product_mst")
 public class Product extends Auditable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2310437731988697720L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String productId;
 	
 	@Column(name = "product_name")

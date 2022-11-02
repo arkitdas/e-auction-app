@@ -54,6 +54,7 @@ services:
     build: .
     ports:
       - "8004:8004"
+      - "5006:5006"
     restart: always
     depends_on:
       - config-service
@@ -67,6 +68,7 @@ services:
     build: .
     ports:
       - "8002:8002"
+      - "5007:5007"
     restart: always
     depends_on:
       - config-service
