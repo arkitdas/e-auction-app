@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SellerResponseInfo {
+	private String sellerId;
 	private String firstName;
 	private String lastName;
 	private String address;

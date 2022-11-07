@@ -3,6 +3,7 @@ package com.cognizant.seller.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -44,14 +45,14 @@ public class SellerService {
 	public ProductAddResponsenfo addProduct(ProductAddRequestInfo productAddRequestInfo) {
 		
 		Seller seller = sellerMapper.toSeller(productAddRequestInfo.getSeller());
-		seller.setSellerId(Uuid.randomUuid().toString());
+		seller.setSellerId(UUID.randomUUID().toString());
 		seller.setCreatedDate(new Date());
 		seller.setLastModifiedDate(new Date());
 		sellerRepository.save(seller);
 		
 		ProductInfo productInfo = productAddRequestInfo.getProduct();
 		productInfo.setSellerId(seller.getSellerId());
-		ProductResponseInfo productResponseInfo = productClient.addProduct(productAddRequestInfo.getProduct());
+		ProductResponseInfo productResponseInfo = productClient.addProduct(productInfo);
 		
 		
 		return ProductAddResponsenfo.builder().product(productResponseInfo)

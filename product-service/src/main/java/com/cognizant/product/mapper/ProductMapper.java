@@ -1,6 +1,8 @@
 package com.cognizant.product.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import com.cognizant.product.model.Product;
@@ -16,6 +18,9 @@ public interface ProductMapper {
 	
 	Product toProduct(ProductInfo productInfo);
 	
+	@Mappings({
+        @Mapping(target = "sellerId", source = "createdBy"),
+	})
 	ProductResponseInfo toProductResponseInfo(Product product);
 	
 }

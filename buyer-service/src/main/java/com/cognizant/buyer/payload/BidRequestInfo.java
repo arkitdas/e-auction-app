@@ -1,7 +1,5 @@
 package com.cognizant.buyer.payload;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -24,14 +22,14 @@ public class BidRequestInfo {
 
 	@NotNull( message = "First Name cannot be null")
 	@NotBlank( message = "First Name cannot be blank")
-	@Min(value = 5, message = "First Name cannot be less than 5 characters")
-	@Max(value = 30, message = "First Name cannot be greater than 30 characters")
+	@Size(min = 5, message = "First Name cannot be less than 5 characters")
+	@Size(max = 30, message = "First Name cannot be greater than 30 characters")
 	private String firstName;
 	
 	@NotNull( message = "Last Name cannot be null")
 	@NotBlank( message = "Last Name cannot be blank")
-	@Min(value = 3, message = "Last Name cannot be less than 3 characters")
-	@Max(value = 30, message = "Last Name cannot be greater than 30 characters")
+	@Size(min = 3, message = "Last Name cannot be less than 3 characters")
+	@Size(max = 30, message = "Last Name cannot be greater than 30 characters")
 	private String lastName;
 	
 	private String address;
