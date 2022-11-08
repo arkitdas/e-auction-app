@@ -21,7 +21,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "buyer_mst")
+@Table(name = "bid_details")
 public class BidDetails extends Auditable {
 
 	@Id
