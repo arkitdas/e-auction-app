@@ -1,16 +1,13 @@
 package com.cognizant.buyer.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -57,6 +54,6 @@ public class Buyer extends Auditable {
 	@Column(name = "email")
 	private String email;
 	
-	@OneToMany(mappedBy="buyer")
-    private Set<BidDetails> bidDetails;
+	@OneToMany(mappedBy="buyer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BidDetails> bidDetails = new HashSet<>();
 }
