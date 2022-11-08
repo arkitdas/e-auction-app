@@ -8,32 +8,19 @@ import org.mapstruct.factory.Mappers;
 import com.cognizant.buyer.model.BidDetails;
 import com.cognizant.buyer.model.Buyer;
 import com.cognizant.buyer.payload.BidDetailResponseInfo;
+import com.cognizant.buyer.payload.BidDetailsInfo;
 import com.cognizant.buyer.payload.BidDetailsResponseInfo;
-import com.cognizant.buyer.payload.BidRequestInfo;
 import com.cognizant.buyer.payload.BidResponseInfo;
+import com.cognizant.buyer.payload.BuyerInfo;
 
 @Mapper(componentModel = "spring")
 public interface BuyerMapper {
 
 	public static BuyerMapper INSTANCE = Mappers.getMapper( BuyerMapper.class );
 	
-	/*
-	 * ProductInfo toProductInfo(Product product);
-	 * 
-	 * Product toProduct(ProductInfo productInfo);
-	 * 
-	 * ProductResponseInfo toProductResponseInfo(Product product);
-	 */
+	Buyer toBuyer(BuyerInfo buyerInfo);
 	
-	@Mappings({
-        @Mapping(target = "bidDetails", ignore = true),
-	})
-	Buyer toBuyer(BidRequestInfo bidRequestInfo);
-	
-	@Mappings({
-        @Mapping(target = "buyer", ignore = true),
-	})
-	BidDetails toBidDetails(BidRequestInfo bidRequestInfo);
+	BidDetails toBidDetails(BidDetailsInfo bidDetailsInfo);
 	
 	@Mappings({
         @Mapping(target = "bidDetails", ignore = true),

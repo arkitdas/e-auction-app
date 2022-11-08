@@ -13,10 +13,9 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class BidRequestInfo {
+public class BidDetailsInfo {
 
-	BuyerInfo buyer;
+	private String productId;
 	
-	BidDetailsInfo bidDetails;
-	
+	private double bidAmount;
 }

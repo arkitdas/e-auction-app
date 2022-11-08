@@ -41,18 +41,18 @@ public class BuyerService {
 	}
 	
 	public BidResponseInfo placeBids(BidRequestInfo bidRequestInfo) throws Exception {
-		ProductResponseInfo productResponseInfo = productClient.getProductsByProductId(bidRequestInfo.getProductId());
+		ProductResponseInfo productResponseInfo = productClient.getProductsByProductId(bidRequestInfo.getBidDetails().getProductId());
 		if(Objects.isNull(productResponseInfo)) {
-			throw new ProductNotFoundException("No product found with product id :"+bidRequestInfo.getProductId());
+			throw new ProductNotFoundException("No product found with product id :"+bidRequestInfo.getBidDetails().getProductId());
 		} else if (new Date().after(productResponseInfo.getBidEndDate())) {
 			throw new InvalidOperationException("Bid cannot be placed as bid date has expired");
 		}
 		
-		Optional<Buyer> buerOp = buyerRepository.findByEmail(bidRequestInfo.getEmail());
+		Optional<Buyer> buerOp = buyerRepository.findByEmail(bidRequestInfo.getBuyer().getEmail());
 		
 		Buyer buyer = null;
 		if(buerOp.isEmpty()) {
-			buyer = buyerMapper.toBuyer(bidRequestInfo);
+			buyer = buyerMapper.toBuyer(bidRequestInfo.getBuyer());
 			buyer.setBuyerId(UUID.randomUUID().toString());
 			buyer.setCreatedDate(new Date());
 			buyer.setLastModifiedDate(new Date());
@@ -63,11 +63,11 @@ public class BuyerService {
 		
 		
 		if(buyer.getBidDetails().stream()
-				.anyMatch((bidDetails -> bidDetails.getProductId().equalsIgnoreCase(bidRequestInfo.getProductId()))) ) {
+				.anyMatch((bidDetails -> bidDetails.getProductId().equalsIgnoreCase(bidRequestInfo.getBidDetails().getProductId()))) ) {
 			throw new InvalidOperationException("Invalid bid, Bid already present with same product");
 		}
 		
-		BidDetails bidDetails = buyerMapper.toBidDetails(bidRequestInfo);
+		BidDetails bidDetails = buyerMapper.toBidDetails(bidRequestInfo.getBidDetails());
 		bidDetails.setBidId(UUID.randomUUID().toString());
 		bidDetails.setBuyer(buyer);
 		bidDetails.setCreatedDate(new Date());
