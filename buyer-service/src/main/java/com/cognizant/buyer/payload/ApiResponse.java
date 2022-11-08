@@ -2,6 +2,9 @@ package com.cognizant.buyer.payload;
 
 
 
+import java.util.Objects;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 
 import com.cognizant.buyer.exception.ProductNotFoundException;
@@ -81,5 +84,10 @@ public class ApiResponse<T> {
 
 	public static <T extends Object> ApiResponse<T> fromException(ProductNotFoundException e) {
 		return new ApiResponse<>(false, e.getCode(), e.getMessage(), null, null);
+	}
+	
+	public static <T extends Object> ApiResponse<T> fromException(Exception e) {
+		String message = !Objects.isNull(e) ? e.getMessage() : "Internal server error";
+		return new ApiResponse<>(false, HttpStatus.INTERNAL_SERVER_ERROR.value(),message, null, null);
 	}
 }

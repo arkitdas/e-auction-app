@@ -67,6 +67,8 @@ public class BuyerService {
 		if(!Objects.isNull(buyer.getBidDetails()) && buyer.getBidDetails().stream()
 				.anyMatch((bidDetails -> bidDetails.getProductId().equalsIgnoreCase(bidRequestInfo.getBidDetails().getProductId()))) ) {
 			throw new InvalidOperationException("Invalid bid, Bid already present with same product");
+		} else if(bidRequestInfo.getBidDetails().getBidAmount() < productResponseInfo.getStartingPrice()) {
+			throw new InvalidOperationException("Invalid bid amount, amount less than starting price");
 		}
 		
 		BidDetails bidDetails = buyerMapper.toBidDetails(bidRequestInfo.getBidDetails());

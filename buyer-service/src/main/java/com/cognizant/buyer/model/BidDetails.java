@@ -34,7 +34,7 @@ public class BidDetails extends Auditable {
 	@Column(name = "bidAmount")
 	private double bidAmount;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "buyer_id")
     private Buyer buyer;
 }
