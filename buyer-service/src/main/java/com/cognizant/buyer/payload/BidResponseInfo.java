@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BidResponseInfo {
 
-	private String bidId;
+	private String buyerId;
 	
 	private String firstName;
 	
