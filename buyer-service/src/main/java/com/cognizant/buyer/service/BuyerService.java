@@ -1,6 +1,8 @@
 package com.cognizant.buyer.service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -56,13 +58,13 @@ public class BuyerService {
 			buyer.setBuyerId(UUID.randomUUID().toString());
 			buyer.setCreatedDate(new Date());
 			buyer.setLastModifiedDate(new Date());
-			buyer = buyerRepository.save(buyer);
+			buyer.setBidDetails(new HashSet<BidDetails>());
 		}else {
 			buyer = buerOp.get();
 		}
 		
 		
-		if(buyer.getBidDetails().stream()
+		if(!Objects.isNull(buyer.getBidDetails()) && buyer.getBidDetails().stream()
 				.anyMatch((bidDetails -> bidDetails.getProductId().equalsIgnoreCase(bidRequestInfo.getBidDetails().getProductId()))) ) {
 			throw new InvalidOperationException("Invalid bid, Bid already present with same product");
 		}
@@ -74,6 +76,8 @@ public class BuyerService {
 		bidDetails.setLastModifiedDate(new Date());
 		bidDetails.setCreatedBy(buyer.getEmail());
 		bidDetails = bidDetailsRepository.save(bidDetails);
+		buyer.getBidDetails().add(bidDetails);
+		buyer = buyerRepository.save(buyer);
 		
 		BidResponseInfo bidResponseInfo = buyerMapper.toBidResponseInfo(buyer);
 		bidResponseInfo.setBidDetails(Set.of(buyerMapper.toBidDetailsResponseInfo(bidDetails)));
