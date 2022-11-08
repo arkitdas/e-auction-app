@@ -71,7 +71,7 @@ public class BuyerService {
 		
 		BidDetails bidDetails = buyerMapper.toBidDetails(bidRequestInfo.getBidDetails());
 		bidDetails.setBidId(UUID.randomUUID().toString());
-		bidDetails.setBuyer(buyer);
+//		bidDetails.setBuyer(buyer);
 		bidDetails.setCreatedDate(new Date());
 		bidDetails.setLastModifiedDate(new Date());
 		bidDetails.setCreatedBy(buyer.getEmail());
