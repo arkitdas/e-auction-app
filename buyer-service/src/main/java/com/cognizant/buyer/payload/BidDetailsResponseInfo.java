@@ -15,7 +15,7 @@ public class BidDetailsResponseInfo {
 
 	private String bidId;
 	
-	private Long productId;
+	private String productId;
 	
 	private double bidAmount;
 }
