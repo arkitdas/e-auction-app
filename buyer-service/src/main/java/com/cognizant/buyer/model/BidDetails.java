@@ -1,9 +1,12 @@
 package com.cognizant.buyer.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -31,6 +34,7 @@ public class BidDetails extends Auditable {
 	@Column(name = "bidAmount")
 	private double bidAmount;
 	
-    @JoinColumn(name="buyer_id")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "buyer_id")
     private Buyer buyer;
 }
