@@ -58,6 +58,7 @@ public class BuyerService {
 			buyer.setBuyerId(UUID.randomUUID().toString());
 			buyer.setCreatedDate(new Date());
 			buyer.setLastModifiedDate(new Date());
+			buyer.setBidDetails(new HashSet<BidDetails>());
 		}else {
 			buyer = buerOp.get();
 		}
@@ -74,7 +75,7 @@ public class BuyerService {
 		bidDetails.setCreatedDate(new Date());
 		bidDetails.setLastModifiedDate(new Date());
 		bidDetails.setCreatedBy(buyer.getEmail());
-		bidDetails = bidDetailsRepository.save(bidDetails);
+		//bidDetails = bidDetailsRepository.save(bidDetails);
 		buyer.getBidDetails().add(bidDetails);
 		buyer = buyerRepository.save(buyer);
 		
