@@ -96,13 +96,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(ApiResponse.ofFailure("Gintaa internal server occurred"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(InvalidOperationException.class)
-    public final ResponseEntity<Object> handleInvalidArgumentException(InvalidOperationException ex, WebRequest request) {
-    	log.error("exception details: {}", ex);
-        int code = ex != null ? ex.getCode() : HttpStatus.INTERNAL_SERVER_ERROR.value();
-        return new ResponseEntity<Object>(ApiResponse.fromException(ex), HttpStatus.resolve(code));
-    }
-
     @ExceptionHandler(InvalidDefinitionException.class)
     public final ResponseEntity<Object> handleInvalidDefinitionException(InvalidDefinitionException ex, WebRequest request) throws Exception {
     	log.error("exception details: {}", ex);
