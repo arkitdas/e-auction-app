@@ -40,7 +40,7 @@ public class BuyerController {
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, buyerService.placeBids(bidRequestInfo)), HttpStatus.OK);
 	}
 	
-	@PutMapping("/update-bid/{productId}/{buyerEmailId}/newBidAmount")
+	@PutMapping("/update-bid/{productId}/{buyerEmailId}/{newBidAmount}")
 	public ResponseEntity<?> updateBidAmount(@NotBlank(message = "productId") @PathVariable String productId,
 			@NotBlank(message = "buyerEmailId") @PathVariable String buyerEmailId,
 			@NotBlank(message = "newBidAmount") @PathVariable double newBidAmount) throws Exception {
