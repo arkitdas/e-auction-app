@@ -26,9 +26,10 @@
 		<!-- <spring-cloud.version>2.2.4.RELEASE</spring-cloud.version> -->
 		<spring-cloud.version>2021.0.0</spring-cloud.version>
 		<spring-cloud-stream.version>3.0.5.RELEASE</spring-cloud-stream.version>
-		
+
 		<docker.image.prefix>arkit/cognizant-e-auction</docker.image.prefix>
-        <docker.image.name>product-service-docker</docker.image.name>
+		<docker.image.name>product-service-docker</docker.image.name>
+		<axon.version>4.6.0</axon.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -163,6 +164,21 @@
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
 		</dependency>
+
+		<!-- Axon CQRS -->
+		<dependency>
+			<groupId>org.axonframework</groupId>
+			<artifactId>axon-spring-boot-starter</artifactId>
+			<version>${axon.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.axonframework.extensions.mongo</groupId>
+			<artifactId>axon-mongo</artifactId>
+			<version>${axon.version}</version>
+
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
@@ -218,39 +234,39 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
-			    <groupId>io.fabric8</groupId>
-			    <artifactId>docker-maven-plugin</artifactId>
-			    <version>0.33.0</version>
-			    <configuration>    
-			        <verbose>true</verbose>
-			        <images>
-			            <image>
-			                <name>${docker.image.prefix}</name>
-			                <build>
-			                    <dockerFileDir>${project.basedir}</dockerFileDir>
-			                    <assembly>
-			                        <descriptorRef>artifact</descriptorRef>
-			                    </assembly>
-			                    <tags>
-			                        <tag>${docker.image.name}-${project.version}</tag>
-			                    </tags>
-			                </build>
-			            </image>
-			        </images>
-			    </configuration>
-			   <executions>
-			     <execution>
-			        <id>default</id>
-			        <phase>install</phase>
-			        <goals>
-			            <goal>build</goal>
-			            <goal>push</goal>
-			        </goals>
-			     </execution>
-			   </executions>
-			 </plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.33.0</version>
+				<configuration>
+					<verbose>true</verbose>
+					<images>
+						<image>
+							<name>${docker.image.prefix}</name>
+							<build>
+								<dockerFileDir>${project.basedir}</dockerFileDir>
+								<assembly>
+									<descriptorRef>artifact</descriptorRef>
+								</assembly>
+								<tags>
+									<tag>${docker.image.name}-${project.version}</tag>
+								</tags>
+							</build>
+						</image>
+					</images>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>install</phase>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 		</plugins>
 	</build>

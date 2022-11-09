@@ -89,6 +89,16 @@ services:
       - postgresdb:/var/lib/postgresql/data
     networks:
       - e-auction-network
+      
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
 
   axonserver:
     image: axoniq/axonserver:latest-dev
@@ -103,6 +113,7 @@ services:
 volumes:
   postgresdb:
     driver: local
+  mongodb_data_container:
       
 networks:
   e-auction-network:

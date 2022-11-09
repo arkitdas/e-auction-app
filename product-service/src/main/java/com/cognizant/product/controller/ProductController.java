@@ -30,7 +30,6 @@ public class ProductController {
 	
 	private ProductService productService;
 	
-	
 	ProductController(ProductService productService){
 		this.productService = productService;
 	}
@@ -40,6 +39,13 @@ public class ProductController {
 		log.debug("addProduct  >>");
 		log.debug("productInfo [" + productInfo + "]");
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, productService.addProduct(productInfo)), HttpStatus.OK);
+	}
+	
+	@PostMapping("/add/cqrs")
+	public ResponseEntity<?> addProductCQRS(@RequestBody @Valid ProductInfo productInfo) {
+		log.debug("addProduct  >>");
+		log.debug("productInfo [" + productInfo + "]");
+		return new ResponseEntity<>(ApiResponse.ofSuccess(200, productService.addProductCQRS(productInfo)), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delete")

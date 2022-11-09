@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Service;
 
 import com.cognizant.product.exception.InvalidOperationException;
@@ -21,12 +23,18 @@ public class ProductService {
 	
 	private ProductRepository productRepository;
 	private ProductMapper productMapper;
+	private final CommandGateway commandGateway;
 	
-	ProductService(ProductRepository productRepository, ProductMapper productMapper){
+	ProductService(ProductRepository productRepository, ProductMapper productMapper, CommandGateway commandGateway){
 		this.productRepository = productRepository;
 		this.productMapper = productMapper;
+		this.commandGateway = commandGateway;
 	}
 
+	public CompletableFuture<?> addProductCQRS(ProductInfo productInfo) {
+		return commandGateway.send(productMapper.toProductAddCommand(productInfo));
+	}
+	
 	public ProductResponseInfo addProduct(ProductInfo productInfo) {
 		Product product = productMapper.toProduct(productInfo);
 		product.setProductId(UUID.randomUUID().toString());

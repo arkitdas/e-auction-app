@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import com.cognizant.product.cqrs.command.ProductAddCommand;
 import com.cognizant.product.model.Product;
 import com.cognizant.product.payload.ProductInfo;
 import com.cognizant.product.payload.ProductResponseInfo;
@@ -22,5 +23,7 @@ public interface ProductMapper {
         @Mapping(target = "sellerId", source = "createdBy"),
 	})
 	ProductResponseInfo toProductResponseInfo(Product product);
+	
+	ProductAddCommand toProductAddCommand(ProductInfo productInfo);
 	
 }

@@ -16,6 +16,13 @@ spring:
        matching-strategy: ant_path_matcher
   config:
     import: "optional:configserver:http://localhost:8088"
+  data:
+    mongodb: 
+      host: localhost
+      port: 27017
+      username: root
+      password: password
+      authentication-database: admin
     
   h2:
     console:
