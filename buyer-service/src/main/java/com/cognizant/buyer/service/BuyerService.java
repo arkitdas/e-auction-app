@@ -93,6 +93,13 @@ public class BuyerService {
 	@Transactional
 	public BidResponseInfo updateBidAmount(String productId, String buyerEmailId, double newBidAmount) throws Exception {
 		
+		ProductResponseInfo productResponseInfo = productClient.getProductsByProductId(productId);
+		if(Objects.isNull(productResponseInfo)) {
+			throw new ProductNotFoundException("No product found with product id :"+productId);
+		} else if (new Date().after(productResponseInfo.getBidEndDate())) {
+			throw new InvalidOperationException("Bid cannot be placed as bid date has expired");
+		}
+		
 		Optional<Buyer> buerOp = buyerRepository.findByEmail(buyerEmailId);
 		
 		if(buerOp.isEmpty()) {
@@ -103,6 +110,10 @@ public class BuyerService {
 		
 		BidDetails bidDetails = buyer.getBidDetails().stream()
 				.filter(bidDetail -> bidDetail.getProductId().equalsIgnoreCase(productId)).findFirst().get();
+		
+		if(newBidAmount < productResponseInfo.getStartingPrice()) {
+			throw new InvalidOperationException("Invalid bid amount, amount less than starting price");
+		}
 		
 		bidDetails.setBidAmount(newBidAmount);
 		bidDetails = bidDetailsRepository.save(bidDetails);

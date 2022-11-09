@@ -50,7 +50,7 @@ public class SellerController {
 				HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete/{productId}")
 	public ResponseEntity<?> deleteProduct(@NotBlank(message = "productId") @PathVariable String productId) throws ProductNotFoundException {
 		log.debug("deleteProduct  >>");
 		log.debug("productId [" + productId + "]");

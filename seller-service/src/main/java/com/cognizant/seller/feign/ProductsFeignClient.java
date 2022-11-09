@@ -21,7 +21,7 @@ public interface ProductsFeignClient {
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<ProductResponseInfo>> addProduct(ProductInfo productInfo);
     
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{productId}")
     public ResponseEntity<ApiResponse<Boolean>> deleteProduct(@NotBlank(message = "productId") @PathVariable String productId);
     
     @GetMapping("/{productId}")
