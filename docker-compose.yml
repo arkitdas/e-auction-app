@@ -92,9 +92,6 @@ services:
       
   mongodb:
     image: mongo:latest
-    container_name: mongodb
-    expose:
-      - 27017
     ports:
       - 27017:27017
     environment:
@@ -102,6 +99,9 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - mongodb_data_container:/data/db
+    networks:
+      - e-auction-network
+      
 
   axonserver:
     image: axoniq/axonserver:latest-dev
