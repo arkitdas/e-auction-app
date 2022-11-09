@@ -3,12 +3,12 @@ package com.cognizant.seller.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.apache.kafka.common.Uuid;
 import org.springframework.stereotype.Service;
 
 import com.cognizant.seller.client.BuyerClient;
@@ -45,10 +45,16 @@ public class SellerService {
 	public ProductAddResponsenfo addProduct(ProductAddRequestInfo productAddRequestInfo) {
 		
 		Seller seller = sellerMapper.toSeller(productAddRequestInfo.getSeller());
-		seller.setSellerId(UUID.randomUUID().toString());
-		seller.setCreatedDate(new Date());
-		seller.setLastModifiedDate(new Date());
-		sellerRepository.save(seller);
+		Optional<Seller> sellerOp = sellerRepository.findByEmail(seller.getEmail());
+		if(sellerOp.isEmpty()) {
+			seller.setSellerId(UUID.randomUUID().toString());
+			seller.setCreatedDate(new Date());
+			seller.setLastModifiedDate(new Date());
+			sellerRepository.save(seller);
+		}else {
+			seller = sellerOp.get();
+		}
+		
 		
 		ProductInfo productInfo = productAddRequestInfo.getProduct();
 		productInfo.setSellerId(seller.getSellerId());

@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.cognizant.buyer.client.ProductClient;
@@ -42,6 +44,7 @@ public class BuyerService {
 		this.bidDetailsRepository = bidDetailsRepository;
 	}
 	
+	@Transactional
 	public BidResponseInfo placeBids(BidRequestInfo bidRequestInfo) throws Exception {
 		ProductResponseInfo productResponseInfo = productClient.getProductsByProductId(bidRequestInfo.getBidDetails().getProductId());
 		if(Objects.isNull(productResponseInfo)) {
@@ -87,6 +90,7 @@ public class BuyerService {
 		return bidResponseInfo;
 	}
 	
+	@Transactional
 	public BidResponseInfo updateBidAmount(String productId, String buyerEmailId, double newBidAmount) throws Exception {
 		
 		Optional<Buyer> buerOp = buyerRepository.findByEmail(buyerEmailId);
@@ -108,6 +112,7 @@ public class BuyerService {
 		return bidResponseInfo;
 	}
 	
+	@Transactional
 	public List<BidDetailResponseInfo> getAllBidsDetailsByProduct(String productId) throws InvalidOperationException {
 		Optional<List<BidDetails>> bidDetailsOp = bidDetailsRepository.findByProductId(productId);
 		if(bidDetailsOp.isEmpty()) {
