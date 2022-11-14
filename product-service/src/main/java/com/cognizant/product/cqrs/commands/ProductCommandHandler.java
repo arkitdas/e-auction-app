@@ -9,6 +9,10 @@ import com.cognizant.product.cqrs.aggreagate.ProductAggregate;
 public class ProductCommandHandler implements CommandHandler{
 
 	private EventSourcingHandler<ProductAggregate> eventSourcingHandler;
+	
+	ProductCommandHandler(EventSourcingHandler<ProductAggregate> eventSourcingHandler) {
+		this.eventSourcingHandler = eventSourcingHandler;
+	}
 
 	@Override
 	public void handle(ProductAddCommand command) {
