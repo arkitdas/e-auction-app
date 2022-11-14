@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.cognizant.product.cqrs.events.ProductAddEvent;
 import com.cognizant.product.exception.InvalidOperationException;
 import com.cognizant.product.exception.ProductNotFoundException;
 import com.cognizant.product.mapper.ProductMapper;
@@ -35,6 +36,18 @@ public class ProductService {
 		product.setActive(true);
 		product.setCreatedBy(productInfo.getSellerId());
 		product.setLastModifiedBy(productInfo.getSellerId());
+		product = productRepository.save(product);
+		return productMapper.toProductResponseInfo(product);
+	}
+	
+	public ProductResponseInfo addProductCQRS(ProductAddEvent productAddEvent) {
+		
+		Product product = productMapper.toProduct(productAddEvent);
+		product.setCreatedDate(new Date());
+		product.setLastModifiedDate(new Date());
+		product.setActive(true);
+		product.setCreatedBy(productAddEvent.getSellerId());
+		product.setLastModifiedBy(productAddEvent.getSellerId());
 		product = productRepository.save(product);
 		return productMapper.toProductResponseInfo(product);
 	}
