@@ -131,6 +131,7 @@ services:
 volumes:
   postgresdb:
     driver: local
+  mongodb_data_container:
       
 networks:
   e-auction-network:
