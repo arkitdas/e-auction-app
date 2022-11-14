@@ -26,7 +26,8 @@
 		<!-- <spring-cloud.version>2.2.4.RELEASE</spring-cloud.version> -->
 		<spring-cloud.version>2021.0.0</spring-cloud.version>
 		<spring-cloud-stream.version>3.0.5.RELEASE</spring-cloud-stream.version>
-		<axon.version>4.6.0</axon.version>
+		<!-- <axon.version>4.6.0</axon.version> -->
+		<axon.version>4.3.2</axon.version>
 
 		<docker.image.prefix>arkit/cognizant-e-auction</docker.image.prefix>
 		<docker.image.name>product-service-docker</docker.image.name>
@@ -170,13 +171,18 @@
 			<groupId>org.axonframework</groupId>
 			<artifactId>axon-spring-boot-starter</artifactId>
 			<version>${axon.version}</version>
+			<exclusions>
+                <exclusion>
+                    <groupId>org.axonframework</groupId>
+                    <artifactId>axon-server-connector</artifactId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>org.axonframework.extensions.mongo</groupId>
 			<artifactId>axon-mongo</artifactId>
 			<version>${axon.version}</version>
-
 		</dependency>
 
 	</dependencies>

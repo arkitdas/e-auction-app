@@ -2,27 +2,20 @@ spring:
   application:
     name: product-service
   datasource:
-    url: jdbc:h2:mem:productdb;MODE=MySQL
-    username: root
-    password: password
-    driverClassName: org.h2.Driver
-  jpa:
-    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
-    defer-datasource-initialization: true
-    show-sql: true
-    properties.hibernate.format_sql: true
+    projection-master:
+      jdbc-url: jdbc:h2:mem:productdb;MODE=MySQL
+      username: root
+      password: password
+      driverClassName: org.h2.Driver
+    axon-master:
+      uri: mongodb://mongodb:27017/?authSource=admin
+      username: root
+      password: password
   mvc:
     pathmatch:
        matching-strategy: ant_path_matcher
   config:
     import: "optional:configserver:http://localhost:8088"
-  data:
-    mongodb: 
-      host: mongodb
-      port: 27017
-      username: root
-      password: password
-      authentication-database: admin
     
   h2:
     console:
