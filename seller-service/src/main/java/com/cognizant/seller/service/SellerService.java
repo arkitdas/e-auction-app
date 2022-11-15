@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.cognizant.seller.client.BuyerClient;
 import com.cognizant.seller.client.ProductClient;
+import com.cognizant.seller.cqrs.events.SellerAddEvent;
 import com.cognizant.seller.exception.InvalidOperationException;
 import com.cognizant.seller.exception.ProductNotFoundException;
 import com.cognizant.seller.mapper.SellerMapper;
@@ -41,6 +42,28 @@ public class SellerService {
 		this.sellerMapper = sellerMapper;
 	}
 	
+	@Transactional
+	public ProductAddResponsenfo addProduct(SellerAddEvent sellerAddEvent) {
+		Seller seller = sellerMapper.toSeller(sellerAddEvent);
+		Optional<Seller> sellerOp = sellerRepository.findByEmail(seller.getEmail());
+		if(sellerOp.isEmpty()) {
+			seller.setCreatedDate(new Date());
+			seller.setLastModifiedDate(new Date());
+			sellerRepository.save(seller);
+		}else {
+			seller = sellerOp.get();
+		}
+		
+		ProductInfo productInfo = sellerAddEvent.getProduct();
+		productInfo.setSellerId(seller.getSellerId());
+		ProductResponseInfo productResponseInfo = productClient.addProduct(productInfo);
+		
+		
+		return ProductAddResponsenfo.builder().product(productResponseInfo)
+				.seller(sellerMapper.toSellerResponseInfo(seller)).build();
+	}
+	
+	@Deprecated
 	@Transactional
 	public ProductAddResponsenfo addProduct(ProductAddRequestInfo productAddRequestInfo) {
 		

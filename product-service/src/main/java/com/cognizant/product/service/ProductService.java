@@ -28,6 +28,7 @@ public class ProductService {
 		this.productMapper = productMapper;
 	}
 
+	@Deprecated
 	public ProductResponseInfo addProduct(ProductInfo productInfo) {
 		Product product = productMapper.toProduct(productInfo);
 		product.setProductId(UUID.randomUUID().toString());
@@ -40,7 +41,7 @@ public class ProductService {
 		return productMapper.toProductResponseInfo(product);
 	}
 	
-	public ProductResponseInfo addProductCQRS(ProductAddEvent productAddEvent) {
+	public ProductResponseInfo addProduct(ProductAddEvent productAddEvent) {
 		
 		Product product = productMapper.toProduct(productAddEvent);
 		product.setCreatedDate(new Date());

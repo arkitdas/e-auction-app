@@ -18,7 +18,7 @@ public class ProductEventHandler implements EventHandler{
 	
 	@Override
 	public void on(ProductAddEvent event) {
-		productService.addProductCQRS(event);
+		productService.addProduct(event);
 	}
 
 	@Override

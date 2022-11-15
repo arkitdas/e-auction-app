@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cognizant.cqrs.core.infrastructure.CommandDispatcher;
 import com.cognizant.product.cqrs.commands.ProductAddCommand;
+import com.cognizant.product.cqrs.commands.ProductDeleteCommand;
 import com.cognizant.product.exception.ProductNotFoundException;
 import com.cognizant.product.mapper.ProductMapper;
 import com.cognizant.product.payload.ApiResponse;
@@ -75,7 +76,9 @@ public class ProductController {
 	public ResponseEntity<?> deleteProduct(@NotBlank(message = "productId") @PathVariable String productId) throws ProductNotFoundException {
 		log.debug("deleteProduct  >>");
 		log.debug("productId [" + productId + "]");
-		return new ResponseEntity<>(ApiResponse.ofSuccess(200, productService.deleteProduct(productId)), HttpStatus.OK);
+		ProductDeleteCommand command = ProductDeleteCommand.builder().productId(productId).build();
+		commandDispatcher.send(command);
+		return new ResponseEntity<>(ApiResponse.ofSuccess(200, "Product Deleted Successfully"), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{productId}")

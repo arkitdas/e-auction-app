@@ -1,8 +1,12 @@
 package com.cognizant.seller.controller;
 
+import java.net.URI;
+import java.util.UUID;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,9 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.cognizant.cqrs.core.infrastructure.CommandDispatcher;
+import com.cognizant.seller.cqrs.commands.SellerAddCommand;
 import com.cognizant.seller.exception.InvalidOperationException;
 import com.cognizant.seller.exception.ProductNotFoundException;
+import com.cognizant.seller.mapper.SellerMapper;
 import com.cognizant.seller.payload.ApiResponse;
 import com.cognizant.seller.payload.ProductAddRequestInfo;
 import com.cognizant.seller.service.SellerService;
@@ -30,15 +38,31 @@ import lombok.extern.slf4j.Slf4j;
 public class SellerController {
 	
 	private SellerService sellerService;
+	private CommandDispatcher commandDispatcher;
+	private SellerMapper sellerMapper;
 	
-	SellerController(SellerService sellerService) {
+	SellerController(SellerService sellerService, CommandDispatcher commandDispatcher, SellerMapper sellerMapper) {
 		this.sellerService = sellerService;
+		this.commandDispatcher = commandDispatcher;
+		this.sellerMapper = sellerMapper;
 	}
 	
 	@PostMapping("/add-product")
 	public ResponseEntity<?> addProduct(@RequestBody @Valid ProductAddRequestInfo productAddRequestInfo) throws Exception {
 		log.debug("productAddRequestInfo [" + productAddRequestInfo + "]");
-		return new ResponseEntity<>(ApiResponse.ofSuccess(200, sellerService.addProduct(productAddRequestInfo)), HttpStatus.OK);
+		SellerAddCommand command = sellerMapper.toSellerAddCommand(productAddRequestInfo);
+		command.setId(UUID.randomUUID().toString());
+		commandDispatcher.send(command);
+		
+		URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{productId}")
+                .buildAndExpand(command.getId())
+                .toUri();
+		HttpHeaders responseHeaders = new HttpHeaders();
+	    responseHeaders.setLocation(location);
+	    
+		return new ResponseEntity<>(ApiResponse.ofSuccess(201, "Seller and product detailes added successfully"), responseHeaders , HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/show-bids/{productId}")
