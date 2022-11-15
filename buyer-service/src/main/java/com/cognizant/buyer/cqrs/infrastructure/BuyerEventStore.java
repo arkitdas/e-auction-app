@@ -16,14 +16,12 @@ import com.cognizant.buyer.cqrs.aggreagate.BuyerAggregate;
 import com.cognizant.buyer.cqrs.events.EventStoreRepository;
 
 @Service
-public class ProductEventStore implements EventStore {
-//    @Autowired
+public class BuyerEventStore implements EventStore {
     private EventProducer eventProducer;
 
-//    @Autowired
     private EventStoreRepository eventStoreRepository;
     
-    ProductEventStore(EventProducer eventProducer, EventStoreRepository eventStoreRepository) {
+    BuyerEventStore(EventProducer eventProducer, EventStoreRepository eventStoreRepository) {
     	this.eventProducer = eventProducer;
     	this.eventStoreRepository = eventStoreRepository;
     }

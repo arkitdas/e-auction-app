@@ -12,7 +12,7 @@ import com.cognizant.cqrs.core.producers.EventProducer;
 import com.cognizant.buyer.cqrs.aggreagate.BuyerAggregate;
 
 @Service
-public class ProductEventSourcingHandler implements EventSourcingHandler<BuyerAggregate> {
+public class BuyerEventSourcingHandler implements EventSourcingHandler<BuyerAggregate> {
     @Autowired
     private EventStore eventStore;
 

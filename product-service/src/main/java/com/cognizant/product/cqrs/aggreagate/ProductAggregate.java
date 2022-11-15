@@ -25,6 +25,8 @@ public class ProductAggregate extends AggregateRoot {
 	private Date bidEndDate;
 
 	private String sellerId;
+	
+	private boolean active;
 
 	public ProductAggregate(ProductAddCommand command) {
 		raiseEvent(ProductAddEvent.builder()
@@ -39,6 +41,7 @@ public class ProductAggregate extends AggregateRoot {
 	}
 
 	public void apply(ProductAddEvent event) {
+		this.id = event.getProductId();
 		this.productId = event.getProductId();
 		this.shortDescription = event.getShortDescription();
 		this.detailedDescription = event.getDetailedDescription();
@@ -49,6 +52,9 @@ public class ProductAggregate extends AggregateRoot {
 	}
 	
 	public void delete() {
+		if (!this.active) {
+            throw new IllegalStateException("Product has already been deleted!");
+        }
 		raiseEvent(ProductDeleteEvent.builder()
 			.id(this.id)
 			.build()
@@ -57,5 +63,6 @@ public class ProductAggregate extends AggregateRoot {
 	
 	public void apply(ProductDeleteEvent event) {
 		this.id = event.getId();
+		this.active = false;
 	}
 }

@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cognizant.buyer.cqrs.commands.BidAddCommand;
 import com.cognizant.buyer.exception.InvalidOperationException;
+import com.cognizant.buyer.mapper.BuyerMapper;
 import com.cognizant.buyer.payload.ApiResponse;
 import com.cognizant.buyer.payload.BidRequestInfo;
 import com.cognizant.buyer.service.BuyerService;
+import com.cognizant.cqrs.core.infrastructure.CommandDispatcher;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,14 +32,20 @@ import lombok.extern.slf4j.Slf4j;
 public class BuyerController {
 	
 	private BuyerService buyerService;
+	private CommandDispatcher commandDispatcher;
+    private BuyerMapper buyerMapper;
 	
-	BuyerController(BuyerService buyerService) {
+	BuyerController(BuyerService buyerService, CommandDispatcher commandDispatcher, BuyerMapper buyerMapper) {
 		this.buyerService = buyerService;
+		this.commandDispatcher = commandDispatcher;
+		this.buyerMapper = buyerMapper;
 	}
 	
 	@PostMapping("/place-bid")
 	public ResponseEntity<?> placeBids(@RequestBody @Valid BidRequestInfo bidRequestInfo) throws Exception {
 		log.debug("bidRequestInfo [" + bidRequestInfo + "]");
+		BidAddCommand command = buyerMapper.toBidAddCommand(bidRequestInfo);
+		commandDispatcher.send(command);
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, buyerService.placeBids(bidRequestInfo)), HttpStatus.OK);
 	}
 	

@@ -1,9 +1,15 @@
 package com.cognizant.buyer.cqrs.aggreagate;
 
-import com.cognizant.buyer.cqrs.commands.BuyerAddCommand;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+import com.cognizant.buyer.cqrs.commands.BidAddCommand;
 import com.cognizant.buyer.cqrs.events.BidAddEvent;
+import com.cognizant.buyer.cqrs.events.BidDetailEvent;
 import com.cognizant.buyer.cqrs.events.BidUpdateAmountdEvent;
-import com.cognizant.buyer.cqrs.events.BuyerAddEvent;
+import com.cognizant.buyer.cqrs.events.BuyerEvent;
 import com.cognizant.cqrs.core.aggregate.AggregateRoot;
 
 import lombok.NoArgsConstructor;
@@ -29,53 +35,57 @@ public class BuyerAggregate extends AggregateRoot {
 	
 	private String email;
 	
-	private String productId;
+	private List<BidDetails> bidDetails;
 	
-	private double bidAmount;
-	
-	private String bidId;
-
-	public BuyerAggregate(BuyerAddCommand command) {
-		raiseEvent(BuyerAddEvent.builder()
-			.buyerId(command.getId())
-			.firstName(command.getFirstName())
-			.lastName(command.getLastName())
-			.address(command.getAddress())
-			.city(command.getCity())
-			.state(command.getState())
-			.pin(command.getPin())
-			.phone(command.getPhone())
-			.email(command.getEmail())
-			.build()
-		);
+	public BuyerAggregate(BidAddCommand command) {
+		BuyerEvent buyerEvent = BuyerEvent.builder()
+				.buyerId(UUID.randomUUID().toString())
+				.firstName(command.getBuyer().getFirstName())
+				.lastName(command.getBuyer().getLastName())
+				.address(command.getBuyer().getAddress())
+				.city(command.getBuyer().getCity())
+				.state(command.getBuyer().getState())
+				.pin(command.getBuyer().getPin())
+				.phone(command.getBuyer().getPhone())
+				.email(command.getBuyer().getEmail())
+				.build();
+		BidDetailEvent bidDetailEvent = BidDetailEvent.builder()
+				.bidId(UUID.randomUUID().toString())
+				.bidAmount(command.getBidDetails().getBidAmount())
+				.productId(command.getBidDetails().getProductId())
+				.build();
+		
+		raiseEvent(BidAddEvent.builder().buyer(buyerEvent)
+				.bidDetails(bidDetailEvent)
+				.build());
 	}
 
-	public void apply(BuyerAddEvent event) {
-		this.buyerId = event.getBuyerId();
-		this.firstName = event.getFirstName();
-		this.lastName = event.getLastName();
-		this.address = event.getAddress();
-		this.city = event.getCity();
-		this.state = event.getState();
-		this.pin = event.getPin();
-		this.phone = event.getPhone();
-		this.email = event.getEmail();
-	}
-	
-	public void addBid(String productId, double bidAmount) {
-		raiseEvent(BidAddEvent.builder()
-			.id(this.id)
-			.bidAmount(bidAmount)
-			.productId(productId)
-			.build()
-		);
-	}
-	
 	public void apply(BidAddEvent event) {
-		this.bidId = event.getId();
-		this.bidAmount = event.getBidAmount();
-		this.productId = event.getProductId();
+		this.id = event.getBuyer().getBuyerId();
+		this.buyerId = event.getBuyer().getBuyerId();
+		this.firstName = event.getBuyer().getFirstName();
+		this.lastName = event.getBuyer().getLastName();
+		this.address = event.getBuyer().getAddress();
+		this.city = event.getBuyer().getCity();
+		this.state = event.getBuyer().getState();
+		this.pin = event.getBuyer().getPin();
+		this.phone = event.getBuyer().getPhone();
+		this.email = event.getBuyer().getEmail();
+		
+		if(Objects.isNull(this.bidDetails)) {
+			this.bidDetails = new ArrayList<>();
+		}
+		
+		this.bidDetails.add(
+				BidDetails.builder()
+				.bidId(event.getBidDetails().getBidId())
+				.bidAmount(event.getBidDetails().getBidAmount())
+				.productId(event.getBidDetails().getProductId())
+				.build()
+		);
+				
 	}
+	
 	
 	public void updateBidAmount(String productId, double bidAmount) {
 		raiseEvent(BidUpdateAmountdEvent.builder()

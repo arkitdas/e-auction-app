@@ -1,25 +1,39 @@
 package com.cognizant.buyer.cqrs.events;
 
-import com.cognizant.cqrs.core.events.BaseEvent;
+import javax.validation.constraints.NotNull;
+
+import com.cognizant.buyer.payload.BuyerInfo;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-public class BuyerAddEvent extends BaseEvent {
+public class BuyerEvent {
 
 	private String buyerId;
+	
 	private String firstName;
+	
 	private String lastName;
+	
 	private String address;
+	
 	private String city;
+	
 	private String state;
+	
 	private String pin;
+	
 	private String phone;
+	
 	private String email;
 }

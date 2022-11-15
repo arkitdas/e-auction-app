@@ -1,5 +1,6 @@
 package com.cognizant.buyer.cqrs.events;
 
+import com.cognizant.buyer.payload.BuyerInfo;
 import com.cognizant.cqrs.core.events.BaseEvent;
 
 import lombok.AllArgsConstructor;
@@ -13,8 +14,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class BidAddEvent extends BaseEvent {
 
-	private String productId;
+	private BuyerEvent buyer;
 	
-	private double bidAmount;
+	private BidDetailEvent bidDetails;
 	
 }

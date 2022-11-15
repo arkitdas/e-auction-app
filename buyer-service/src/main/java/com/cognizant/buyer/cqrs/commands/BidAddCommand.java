@@ -1,5 +1,7 @@
 package com.cognizant.buyer.cqrs.commands;
 
+import com.cognizant.buyer.payload.BidDetailsInfo;
+import com.cognizant.buyer.payload.BuyerInfo;
 import com.cognizant.cqrs.core.commands.BaseCommand;
 
 import lombok.Builder;
@@ -9,7 +11,7 @@ import lombok.Data;
 @Builder
 public class BidAddCommand extends BaseCommand {
 
-	private String productId;
+	private BuyerInfo buyer;
 	
-	private double bidAmount;
+	private BidDetailsInfo bidDetails;
 }

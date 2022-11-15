@@ -5,11 +5,13 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import com.cognizant.buyer.cqrs.commands.BidAddCommand;
 import com.cognizant.buyer.model.BidDetails;
 import com.cognizant.buyer.model.Buyer;
 import com.cognizant.buyer.payload.BidDetailResponseInfo;
 import com.cognizant.buyer.payload.BidDetailsInfo;
 import com.cognizant.buyer.payload.BidDetailsResponseInfo;
+import com.cognizant.buyer.payload.BidRequestInfo;
 import com.cognizant.buyer.payload.BidResponseInfo;
 import com.cognizant.buyer.payload.BuyerInfo;
 
@@ -30,5 +32,7 @@ public interface BuyerMapper {
 	BidDetailsResponseInfo toBidDetailsResponseInfo(BidDetails bidDetails);
 	
 	BidDetailResponseInfo toBidDetailResponseInfo(BidDetails bidDetails);
+	
+	BidAddCommand toBidAddCommand(BidRequestInfo bidRequestInfo);
 	
 }

@@ -72,7 +72,7 @@ public class ProductController {
 		return new ResponseEntity<>(ApiResponse.ofSuccess(201, "Product added successfully"), responseHeaders, HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete/{productId}")
 	public ResponseEntity<?> deleteProduct(@NotBlank(message = "productId") @PathVariable String productId) throws ProductNotFoundException {
 		log.debug("deleteProduct  >>");
 		log.debug("productId [" + productId + "]");
