@@ -1,11 +1,9 @@
 package com.cognizant.product.cqrs.aggreagate;
 
 import java.util.Date;
-import java.util.UUID;
 
 import com.cognizant.cqrs.core.aggregate.AggregateRoot;
 import com.cognizant.product.cqrs.commands.ProductAddCommand;
-import com.cognizant.product.cqrs.commands.ProductDeleteCommand;
 import com.cognizant.product.cqrs.events.ProductAddEvent;
 import com.cognizant.product.cqrs.events.ProductDeleteEvent;
 
@@ -30,7 +28,7 @@ public class ProductAggregate extends AggregateRoot {
 
 	public ProductAggregate(ProductAddCommand command) {
 		raiseEvent(ProductAddEvent.builder()
-			.productId(UUID.randomUUID().toString())
+			.productId(command.getId())
 			.shortDescription(command.getShortDescription())
 			.detailedDescription(command.getDetailedDescription())
 			.categopry(command.getCategopry())

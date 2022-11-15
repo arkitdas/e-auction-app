@@ -1,8 +1,12 @@
 package com.cognizant.product.controller;
 
+import java.net.URI;
+import java.util.UUID;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,8 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cognizant.cqrs.core.infrastructure.CommandDispatcher;
+import com.cognizant.product.cqrs.commands.ProductAddCommand;
 import com.cognizant.product.exception.ProductNotFoundException;
 import com.cognizant.product.mapper.ProductMapper;
 import com.cognizant.product.payload.ApiResponse;
@@ -40,19 +46,29 @@ public class ProductController {
 		this.productMapper = productMapper;
 	}
 	
+	/*
+	 * @PostMapping("/add") public ResponseEntity<?> addProduct(@RequestBody @Valid
+	 * ProductInfo productInfo) { log.debug("addProduct  >>");
+	 * log.debug("productInfo [" + productInfo + "]"); return new
+	 * ResponseEntity<>(ApiResponse.ofSuccess(200,
+	 * productService.addProduct(productInfo)), HttpStatus.OK); }
+	 */
+	
 	@PostMapping("/add")
 	public ResponseEntity<?> addProduct(@RequestBody @Valid ProductInfo productInfo) {
 		log.debug("addProduct  >>");
 		log.debug("productInfo [" + productInfo + "]");
-		return new ResponseEntity<>(ApiResponse.ofSuccess(200, productService.addProduct(productInfo)), HttpStatus.OK);
-	}
-	
-	@PostMapping("/add-cqrs")
-	public ResponseEntity<?> addProductCQRS(@RequestBody @Valid ProductInfo productInfo) {
-		log.debug("addProduct  >>");
-		log.debug("productInfo [" + productInfo + "]");
-		commandDispatcher.send(productMapper.toProductAddCommand(productInfo));
-		return new ResponseEntity<>(ApiResponse.ofSuccess(200, "Product added successfully"), HttpStatus.OK);
+		ProductAddCommand command = productMapper.toProductAddCommand(productInfo);
+		command.setId(UUID.randomUUID().toString());
+		commandDispatcher.send(command);
+		URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{productId}")
+                .buildAndExpand(command.getId())
+                .toUri();
+		HttpHeaders responseHeaders = new HttpHeaders();
+	    responseHeaders.setLocation(location);
+		return new ResponseEntity<>(ApiResponse.ofSuccess(201, "Product added successfully"), responseHeaders, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/delete")
