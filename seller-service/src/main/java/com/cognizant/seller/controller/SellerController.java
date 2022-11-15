@@ -55,11 +55,13 @@ public class SellerController {
 		command.setId(UUID.randomUUID().toString());
 		commandDispatcher.send(command);
 		
-		URI location = ServletUriComponentsBuilder
+		URI location = new URI("/v1/seller/email/"+productAddRequestInfo.getSeller().getEmail());
+				
+				/*ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/email/{email}")
                 .buildAndExpand(productAddRequestInfo.getSeller().getEmail())
-                .toUri();
+                .toUri();*/
 		HttpHeaders responseHeaders = new HttpHeaders();
 	    responseHeaders.setLocation(location);
 	    
