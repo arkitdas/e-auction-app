@@ -49,6 +49,7 @@ public class ProductAggregate extends AggregateRoot {
 		this.startingPrice = event.getStartingPrice();
 		this.bidEndDate = event.getBidEndDate();
 		this.sellerId = event.getSellerId();
+		this.active = true;
 	}
 	
 	public void delete() {

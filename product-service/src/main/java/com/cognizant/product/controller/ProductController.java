@@ -77,6 +77,7 @@ public class ProductController {
 		log.debug("deleteProduct  >>");
 		log.debug("productId [" + productId + "]");
 		ProductDeleteCommand command = ProductDeleteCommand.builder().productId(productId).build();
+//		command.setId(productId);
 		commandDispatcher.send(command);
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, "Product Deleted Successfully"), HttpStatus.OK);
 	}

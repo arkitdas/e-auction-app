@@ -101,6 +101,7 @@ services:
       - mongodb_data_container:/data/db
     networks:
       - e-auction-network
+    mem_limit: "2G"
       
   zookeeper:
     image: confluentinc/cp-zookeeper:latest

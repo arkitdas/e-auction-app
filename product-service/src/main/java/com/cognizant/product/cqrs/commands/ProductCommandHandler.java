@@ -22,7 +22,7 @@ public class ProductCommandHandler implements CommandHandler{
 
 	@Override
 	public void handle(ProductDeleteCommand command) {
-		var aggregate = eventSourcingHandler.getById(command.getId());
+		var aggregate = eventSourcingHandler.getById(command.getProductId());
         aggregate.delete();
         eventSourcingHandler.save(aggregate);
 	}
