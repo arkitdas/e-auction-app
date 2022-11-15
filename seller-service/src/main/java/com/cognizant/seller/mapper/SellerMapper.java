@@ -13,6 +13,7 @@ import com.cognizant.seller.payload.BidDetailsResponseInfo;
 import com.cognizant.seller.payload.ProductAddRequestInfo;
 import com.cognizant.seller.payload.ProductResponseInfo;
 import com.cognizant.seller.payload.ProductShortResponseInfo;
+import com.cognizant.seller.payload.SellerProductResponseInfo;
 import com.cognizant.seller.payload.SellerRequestInfo;
 import com.cognizant.seller.payload.SellerResponseInfo;
 
@@ -42,5 +43,17 @@ public interface SellerMapper {
         @Mapping(target = "email", source = "seller.email")
     })
 	SellerAddCommand toSellerAddCommand(ProductAddRequestInfo productAddRequestInfo);
+	
+	@Mappings({
+        @Mapping(target = "firstName", source = "seller.firstName"),
+        @Mapping(target = "lastName", source = "seller.lastName"),
+        @Mapping(target = "address", source = "seller.address"),
+        @Mapping(target = "city", source = "seller.city"),
+        @Mapping(target = "state", source = "seller.state"),
+        @Mapping(target = "pin", source = "seller.pin"),
+        @Mapping(target = "phone", source = "seller.phone"),
+        @Mapping(target = "email", source = "seller.email")
+    })
+	SellerProductResponseInfo toSellerProductResponseInfo(Seller seller);
 	
 }

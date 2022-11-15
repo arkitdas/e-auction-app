@@ -11,7 +11,7 @@ import com.cognizant.seller.model.Seller;
  * @author Arkit Das
  */
 @Repository
-public interface SellerRepository extends JpaRepository<Seller, Long> {
+public interface SellerRepository extends JpaRepository<Seller, String> {
 	
 	Optional<Seller> findByEmail(String email);
 

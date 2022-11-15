@@ -12,7 +12,7 @@ import com.cognizant.cqrs.core.commands.CommandHandlerMethod;
 import com.cognizant.cqrs.core.infrastructure.CommandDispatcher;
 
 @Service
-public class ProductCommandDispatcher implements CommandDispatcher{
+public class SellerCommandDispatcher implements CommandDispatcher{
 
 	/**
 	 * All routes required to be registered

@@ -16,6 +16,7 @@ import com.cognizant.seller.client.ProductClient;
 import com.cognizant.seller.cqrs.events.SellerAddEvent;
 import com.cognizant.seller.exception.InvalidOperationException;
 import com.cognizant.seller.exception.ProductNotFoundException;
+import com.cognizant.seller.exception.SellerNotFoundException;
 import com.cognizant.seller.mapper.SellerMapper;
 import com.cognizant.seller.model.Seller;
 import com.cognizant.seller.payload.BidDetailResponseInfo;
@@ -25,6 +26,8 @@ import com.cognizant.seller.payload.ProductAddResponsenfo;
 import com.cognizant.seller.payload.ProductInfo;
 import com.cognizant.seller.payload.ProductResponseInfo;
 import com.cognizant.seller.payload.ProductShortResponseInfo;
+import com.cognizant.seller.payload.SellerProductResponseInfo;
+import com.cognizant.seller.payload.SellerResponseInfo;
 import com.cognizant.seller.repository.SellerRepository;
 
 @Service
@@ -106,5 +109,75 @@ public class SellerService {
 	
 	public boolean deleteProduct(String productId) throws ProductNotFoundException {
 		return productClient.deleteProductByProductId(productId);
+	}
+	
+	public ProductAddResponsenfo showAllSellerProductBySellerEmailId(String productId) throws ProductNotFoundException, InvalidOperationException {
+		ProductResponseInfo productResponseInfo = productClient.getProductsByProductId(productId);
+		if(Objects.isNull(productResponseInfo)) {
+			throw new ProductNotFoundException("No product found with product id :"+productId);
+		} else if (new Date().after(productResponseInfo.getBidEndDate())) {
+			throw new InvalidOperationException("Bid cannot be placed as bid date has expired");
+		}
+		
+		Optional<Seller> sellerOp = sellerRepository.findById(productResponseInfo.getSellerId());
+		return ProductAddResponsenfo.builder().product(productResponseInfo)
+				.seller(sellerMapper.toSellerResponseInfo(sellerOp.get())).build();
+		
+	}
+	
+	public ProductAddResponsenfo getProductDetailsByProductId(String productId) throws ProductNotFoundException, InvalidOperationException {
+		ProductResponseInfo productResponseInfo = productClient.getProductsByProductId(productId);
+		if(Objects.isNull(productResponseInfo)) {
+			throw new ProductNotFoundException("No product found with product id :"+productId);
+		} else if (new Date().after(productResponseInfo.getBidEndDate())) {
+			throw new InvalidOperationException("Bid cannot be placed as bid date has expired");
+		}
+		
+		Optional<Seller> sellerOp = sellerRepository.findById(productResponseInfo.getSellerId());
+		return ProductAddResponsenfo.builder().product(productResponseInfo)
+				.seller(sellerMapper.toSellerResponseInfo(sellerOp.get())).build();
+		
+	}
+	
+	public SellerProductResponseInfo getAllSellerProductBySellerEmailId(String emailId) throws ProductNotFoundException, InvalidOperationException, SellerNotFoundException {
+		Optional<Seller> sellerOp = sellerRepository.findByEmail(emailId);
+		if(sellerOp.isEmpty()) {
+			throw new SellerNotFoundException("No seller found with email id :"+emailId);
+		}
+		
+		List<ProductResponseInfo> productResponseInfos = productClient.getProductsBySellerId(sellerOp.get().getSellerId());
+		if(Objects.isNull(productResponseInfos)) {
+			throw new ProductNotFoundException("No product found for seller");
+		}
+		
+		SellerProductResponseInfo responseInfo = sellerMapper.toSellerProductResponseInfo(sellerOp.get());
+		responseInfo.setProducts(productResponseInfos);
+		return responseInfo;
+		
+	}
+	
+	public SellerProductResponseInfo getAllSellerProductBySellerId(String sellerId) throws SellerNotFoundException, ProductNotFoundException, InvalidOperationException {
+		Optional<Seller> sellerOp = sellerRepository.findById(sellerId);
+		if(sellerOp.isEmpty()) {
+			throw new SellerNotFoundException("No seller found with seller id :"+sellerId);
+		}
+		
+		List<ProductResponseInfo> productResponseInfos = productClient.getProductsBySellerId(sellerOp.get().getSellerId());
+		if(Objects.isNull(productResponseInfos)) {
+			throw new ProductNotFoundException("No product found for seller");
+		}
+		
+		SellerProductResponseInfo responseInfo = sellerMapper.toSellerProductResponseInfo(sellerOp.get());
+		responseInfo.setProducts(productResponseInfos);
+		return responseInfo;
+		
+	}
+	
+	public SellerResponseInfo getSellerDetailsByEmailId(String email) throws SellerNotFoundException {
+		Optional<Seller> sellerOp = sellerRepository.findByEmail(email);
+		if(sellerOp.isEmpty()) {
+			throw new SellerNotFoundException("No seller found with email id :"+email);
+		}
+		return sellerMapper.toSellerResponseInfo(sellerOp.get());
 	}
 }

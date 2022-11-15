@@ -1,5 +1,6 @@
 package com.cognizant.seller.client;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.management.openmbean.InvalidOpenTypeException;
@@ -61,6 +62,18 @@ public class ProductClient {
         }else{
             log.error("Failed to delete product with product id :"+productId);
             throw new InvalidOpenTypeException("Failed to delete product with product id :"+productId);
+        }
+	}
+	
+	public List<ProductResponseInfo> getProductsBySellerId(String sellerId) {
+		ApiResponse<List<ProductResponseInfo>> response = productsFeignClient.getAllProductBySeller(sellerId).getBody();
+        
+        if (!Objects.isNull(response) && response.isSuccess()
+                && !Objects.isNull(response.getPayload())) {
+            return (List<ProductResponseInfo>) response.getPayload();
+        }else{
+            log.error("Failed to credit transaction");
+            return null;
         }
 	}
 	

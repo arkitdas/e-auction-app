@@ -29,4 +29,7 @@ public interface ProductsFeignClient {
     
     @GetMapping
     public ResponseEntity<ApiResponse<List<ProductResponseInfo>>> getAllProduct();
+    
+    @GetMapping("/seller/{sellerId}")
+    public ResponseEntity<ApiResponse<List<ProductResponseInfo>>> getAllProductBySeller(@NotBlank(message = "sellerId") @PathVariable String sellerId);
 }

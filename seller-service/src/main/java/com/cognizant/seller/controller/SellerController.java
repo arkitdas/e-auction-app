@@ -22,6 +22,7 @@ import com.cognizant.cqrs.core.infrastructure.CommandDispatcher;
 import com.cognizant.seller.cqrs.commands.SellerAddCommand;
 import com.cognizant.seller.exception.InvalidOperationException;
 import com.cognizant.seller.exception.ProductNotFoundException;
+import com.cognizant.seller.exception.SellerNotFoundException;
 import com.cognizant.seller.mapper.SellerMapper;
 import com.cognizant.seller.payload.ApiResponse;
 import com.cognizant.seller.payload.ProductAddRequestInfo;
@@ -56,8 +57,8 @@ public class SellerController {
 		
 		URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/{productId}")
-                .buildAndExpand(command.getId())
+                .path("/email/{email}")
+                .buildAndExpand(productAddRequestInfo.getSeller().getEmail())
                 .toUri();
 		HttpHeaders responseHeaders = new HttpHeaders();
 	    responseHeaders.setLocation(location);
@@ -79,6 +80,33 @@ public class SellerController {
 		log.debug("deleteProduct  >>");
 		log.debug("productId [" + productId + "]");
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, sellerService.deleteProduct(productId)), HttpStatus.OK);
+	}
+	
+	@GetMapping("/product/{productId}")
+	public ResponseEntity<?> showProductByProductId(@NotBlank(message = "productId") @PathVariable String productId)
+			throws ProductNotFoundException, InvalidOperationException {
+		log.debug("showBidsByProduct  >>");
+		log.debug("productId [" + productId + "]");
+		return new ResponseEntity<>(ApiResponse.ofSuccess(200, sellerService.getProductDetailsByProductId(productId)),
+				HttpStatus.OK);
+	}
+	
+	@GetMapping("/email/{email}")
+	public ResponseEntity<?> showAllSellerProductBySellerEmailId(@NotBlank(message = "email") @PathVariable String email)
+			throws ProductNotFoundException, InvalidOperationException, SellerNotFoundException {
+		log.debug("showBidsByProduct  >>");
+		log.debug("email [" + email + "]");
+		return new ResponseEntity<>(ApiResponse.ofSuccess(200, sellerService.getAllSellerProductBySellerEmailId(email)),
+				HttpStatus.OK);
+	}
+	
+	@GetMapping("/{sellerId}")
+	public ResponseEntity<?> showAllSellerProductBySellerId(@NotBlank(message = "sellerId") @PathVariable String sellerId)
+			throws ProductNotFoundException, InvalidOperationException, SellerNotFoundException {
+		log.debug("showBidsByProduct  >>");
+		log.debug("sellerId [" + sellerId + "]");
+		return new ResponseEntity<>(ApiResponse.ofSuccess(200, sellerService.getAllSellerProductBySellerId(sellerId)),
+				HttpStatus.OK);
 	}
 	
 

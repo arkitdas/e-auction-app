@@ -93,5 +93,11 @@ public class ProductController {
 		log.debug("getAllProduct  >>");
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, productService.getAllProduct()), HttpStatus.OK);
 	}
+	
+	@GetMapping("/seller/{sellerId}")
+	public ResponseEntity<?> getAllProductBySeller(@NotBlank(message = "sellerId") @PathVariable String sellerId) throws ProductNotFoundException {
+		log.debug("getAllProductBySeller  >>");
+		return new ResponseEntity<>(ApiResponse.ofSuccess(200, productService.getAllProductBySeller(sellerId)), HttpStatus.OK);
+	}
 
 }
