@@ -65,7 +65,7 @@ public class ProductController {
 	}
 	
 	@DeleteMapping("/seller/delete/{productId}")
-	public ResponseEntity<?> deleteProduct(@NotBlank(message = "productId") @PathVariable String productId) throws ProductNotFoundException {
+	public ResponseEntity<?> deleteProduct(@NotBlank(message = "Product ID cannot be blank") @PathVariable(value = "productId") String productId) throws ProductNotFoundException {
 		log.debug("deleteProduct  >>");
 		log.debug("productId [" + productId + "]");
 		ProductDeleteCommand command = ProductDeleteCommand.builder().productId(productId).build();
@@ -75,7 +75,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/product/{productId}")
-	public ResponseEntity<?> getProduct(@NotBlank(message = "productId") @PathVariable String productId) throws ProductNotFoundException {
+	public ResponseEntity<?> getProduct(@NotBlank(message = "Product ID cannot be blank") @PathVariable(value = "productId") String productId) throws ProductNotFoundException {
 		log.debug("getProduct  >>");
 		log.debug("productId [" + productId + "]");
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, productService.getProductByProductId(productId)), HttpStatus.OK);
@@ -88,7 +88,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/seller/{sellerId}")
-	public ResponseEntity<?> getAllProductBySeller(@NotBlank(message = "sellerId") @PathVariable String sellerId) throws ProductNotFoundException {
+	public ResponseEntity<?> getAllProductBySeller(@NotBlank(message = "Seller ID cannot be blank") @PathVariable(value = "sellerId") String sellerId) throws ProductNotFoundException {
 		log.debug("getAllProductBySeller  >>");
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, productService.getAllProductBySeller(sellerId)), HttpStatus.OK);
 	}

@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.cognizant.bid.payload.ApiResponse;
 import com.cognizant.bid.payload.ProductResponseInfo;
 
-@FeignClient(name = "${buyer.remote.services.product.name}", path = "/product-service/v1/product")
+@FeignClient(name = "${bid.remote.services.product.name}", path = "/product-service/v1")
 public interface ProductsFeignClient {
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<ApiResponse<Boolean>> deleteProduct(@NotBlank(message = "productId") @PathVariable String productId);
+    @DeleteMapping("/seller/delete/{productId}")
+	public ResponseEntity<ApiResponse<Boolean>> deleteProduct(@NotBlank(message = "Product ID cannot be blank") @PathVariable(value = "productId") String productId);
     
-    @GetMapping("/{productId}")
-    public ResponseEntity<ApiResponse<ProductResponseInfo>> getProduct(@NotBlank(message = "productId") @PathVariable String productId);
-    
-    @GetMapping
+    @GetMapping("/product/{productId}")
+	public ResponseEntity<ApiResponse<ProductResponseInfo>> getProduct(@NotBlank(message = "Product ID cannot be blank") @PathVariable(value = "productId") String productId);
+	
+    @GetMapping("/product")
     public ResponseEntity<ApiResponse<List<ProductResponseInfo>>> getAllProduct();
 }

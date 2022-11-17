@@ -6,6 +6,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.cognizant.user.meta.UserType;
+import com.cognizant.user.validation.ValidEmail;
 import com.cognizant.user.validation.ValidEnum;
 
 import lombok.AllArgsConstructor;
@@ -47,7 +48,7 @@ public class UserRequestInfo {
 	
 	@NotNull( message = "Email cannot be null")
 	@NotBlank( message = "Email Name cannot be blank")
-	@Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\\\.[A-Za-z0-9-]+)*(\\\\.[A-Za-z]{2,})$")
+	@ValidEmail
 	private String email;
 	
 	@ValidEnum(message = "Invalid user type provided", isRequired = false, enumClass = UserType.class)

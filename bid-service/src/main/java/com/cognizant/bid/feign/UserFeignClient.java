@@ -21,11 +21,11 @@ public interface UserFeignClient {
     public ResponseEntity<ApiResponse<UserResponseInfo>> addUser(@RequestBody UserRequestInfo userRequestInfo);
     
     @DeleteMapping("/{userId}")
-    public ResponseEntity<ApiResponse<Boolean>> deleteUser(@NotBlank(message = "userId") @PathVariable String userId);
+    public ResponseEntity<ApiResponse<Boolean>> deleteUser(@NotBlank(message = "User Id cannot be blank") @PathVariable(value = "userId") String userId);
     
     @GetMapping("/{userId}")
-    public ResponseEntity<ApiResponse<UserResponseInfo>> getUserByUserId(@NotBlank(message = "userId") @PathVariable String userId);
+    public ResponseEntity<ApiResponse<UserResponseInfo>> getUserByUserId(@NotBlank(message = "User Id cannot be blank") @PathVariable(value = "userId") String userId);
     
     @GetMapping("/email/{emailId}")
-    public ResponseEntity<ApiResponse<UserResponseInfo>> getUserByEmailId(@NotBlank(message = "emailId") @PathVariable String emailId);
+    public ResponseEntity<ApiResponse<UserResponseInfo>> getUserByEmailId(@NotBlank(message = "Email Id cannot be blank") @PathVariable(value = "emailId") String emailId);
 }

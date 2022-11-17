@@ -57,7 +57,15 @@ server:
     context-path: /bid-service
         
         
-        
+bid:
+  remote:
+    services:
+      product:
+        url:
+        name: product-service 
+      user:
+        url:
+        name: user-service        
 eureka:
   client:
     serviceUrl:
