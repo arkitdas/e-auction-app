@@ -12,14 +12,14 @@ spring:
         uri: lb://product-service
         predicates:
         - Path=/product-service/**
-      - id: buyerModule
-        uri: lb://buyer-service
+      - id: userModule
+        uri: lb://user-service
         predicates:
-        - Path=/buyer-service/**
-      - id: sellerModule
-        uri: lb://seller-service
+        - Path=/user-service/**
+      - id: bidModule
+        uri: lb://bid-service
         predicates:
-        - Path=/seller-service/**
+        - Path=/bid-service/**
   config:
     import: "optional:configserver:http://localhost:8088"
 

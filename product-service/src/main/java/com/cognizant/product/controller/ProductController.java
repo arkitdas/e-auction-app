@@ -24,7 +24,7 @@ import com.cognizant.product.cqrs.commands.ProductDeleteCommand;
 import com.cognizant.product.exception.ProductNotFoundException;
 import com.cognizant.product.mapper.ProductMapper;
 import com.cognizant.product.payload.ApiResponse;
-import com.cognizant.product.payload.ProductInfo;
+import com.cognizant.product.payload.ProductAddRequestInfo;
 import com.cognizant.product.service.ProductService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@RequestMapping("/v1/product")
+@RequestMapping("/v1")
 public class ProductController {
 	
 	private ProductService productService;
@@ -47,19 +47,11 @@ public class ProductController {
 		this.productMapper = productMapper;
 	}
 	
-	/*
-	 * @PostMapping("/add") public ResponseEntity<?> addProduct(@RequestBody @Valid
-	 * ProductInfo productInfo) { log.debug("addProduct  >>");
-	 * log.debug("productInfo [" + productInfo + "]"); return new
-	 * ResponseEntity<>(ApiResponse.ofSuccess(200,
-	 * productService.addProduct(productInfo)), HttpStatus.OK); }
-	 */
-	
-	@PostMapping("/add")
-	public ResponseEntity<?> addProduct(@RequestBody @Valid ProductInfo productInfo) {
+	@PostMapping("/seller/add-product")
+	public ResponseEntity<?> addProduct(@RequestBody @Valid ProductAddRequestInfo productAddRequestInfo) {
 		log.debug("addProduct  >>");
-		log.debug("productInfo [" + productInfo + "]");
-		ProductAddCommand command = productMapper.toProductAddCommand(productInfo);
+		log.debug("productInfo [" + productAddRequestInfo + "]");
+		ProductAddCommand command = productMapper.toProductAddCommand(productAddRequestInfo);
 		command.setId(UUID.randomUUID().toString());
 		commandDispatcher.send(command);
 		URI location = ServletUriComponentsBuilder
@@ -72,7 +64,7 @@ public class ProductController {
 		return new ResponseEntity<>(ApiResponse.ofSuccess(201, "Product added successfully"), responseHeaders, HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/delete/{productId}")
+	@DeleteMapping("/seller/delete/{productId}")
 	public ResponseEntity<?> deleteProduct(@NotBlank(message = "productId") @PathVariable String productId) throws ProductNotFoundException {
 		log.debug("deleteProduct  >>");
 		log.debug("productId [" + productId + "]");
@@ -82,14 +74,14 @@ public class ProductController {
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, "Product Deleted Successfully"), HttpStatus.OK);
 	}
 	
-	@GetMapping("/{productId}")
+	@GetMapping("/product/{productId}")
 	public ResponseEntity<?> getProduct(@NotBlank(message = "productId") @PathVariable String productId) throws ProductNotFoundException {
 		log.debug("getProduct  >>");
 		log.debug("productId [" + productId + "]");
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, productService.getProductByProductId(productId)), HttpStatus.OK);
 	}
 	
-	@GetMapping
+	@GetMapping("/product")
 	public ResponseEntity<?> getAllProduct() throws ProductNotFoundException {
 		log.debug("getAllProduct  >>");
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, productService.getAllProduct()), HttpStatus.OK);

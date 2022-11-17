@@ -3,6 +3,7 @@ package com.cognizant.product.cqrs.events;
 import java.util.Date;
 
 import com.cognizant.cqrs.core.events.BaseEvent;
+import com.cognizant.product.payload.UserRequestInfo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,5 +28,5 @@ public class ProductAddEvent extends BaseEvent {
 
 	private Date bidEndDate;
 
-	private String sellerId;
+	private UserRequestInfo seller;
 }

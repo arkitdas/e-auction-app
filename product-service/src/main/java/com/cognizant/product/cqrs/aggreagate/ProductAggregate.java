@@ -6,6 +6,7 @@ import com.cognizant.cqrs.core.aggregate.AggregateRoot;
 import com.cognizant.product.cqrs.commands.ProductAddCommand;
 import com.cognizant.product.cqrs.events.ProductAddEvent;
 import com.cognizant.product.cqrs.events.ProductDeleteEvent;
+import com.cognizant.product.payload.UserRequestInfo;
 
 import lombok.NoArgsConstructor;
 
@@ -24,7 +25,7 @@ public class ProductAggregate extends AggregateRoot {
 
 	private Date bidEndDate;
 
-	private String sellerId;
+	private UserRequestInfo seller;
 	
 	private boolean active;
 
@@ -36,7 +37,7 @@ public class ProductAggregate extends AggregateRoot {
 			.categopry(command.getCategopry())
 			.startingPrice(command.getStartingPrice())
 			.bidEndDate(command.getBidEndDate())
-			.sellerId(command.getSellerId()).build()
+			.seller(command.getSeller()).build()
 		);
 	}
 
@@ -48,7 +49,7 @@ public class ProductAggregate extends AggregateRoot {
 		this.categopry = event.getCategopry();
 		this.startingPrice = event.getStartingPrice();
 		this.bidEndDate = event.getBidEndDate();
-		this.sellerId = event.getSellerId();
+		this.seller = event.getSeller();
 		this.active = true;
 	}
 	

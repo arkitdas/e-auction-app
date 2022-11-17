@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.cognizant.product.client.UserClient;
 import com.cognizant.product.cqrs.events.ProductAddEvent;
 import com.cognizant.product.exception.InvalidOperationException;
 import com.cognizant.product.exception.ProductNotFoundException;
@@ -15,6 +16,7 @@ import com.cognizant.product.mapper.ProductMapper;
 import com.cognizant.product.model.Product;
 import com.cognizant.product.payload.ProductInfo;
 import com.cognizant.product.payload.ProductResponseInfo;
+import com.cognizant.product.payload.UserResponseInfo;
 import com.cognizant.product.repository.ProductRepository;
 
 @Service
@@ -22,10 +24,12 @@ public class ProductService {
 	
 	private ProductRepository productRepository;
 	private ProductMapper productMapper;
+	private UserClient userClient;
 	
-	ProductService(ProductRepository productRepository, ProductMapper productMapper){
+	ProductService(ProductRepository productRepository, ProductMapper productMapper, UserClient userClient){
 		this.productRepository = productRepository;
 		this.productMapper = productMapper;
+		this.userClient = userClient;
 	}
 
 	@Deprecated
@@ -43,12 +47,14 @@ public class ProductService {
 	
 	public ProductResponseInfo addProduct(ProductAddEvent productAddEvent) {
 		
+		UserResponseInfo seller = userClient.addUser(productAddEvent.getSeller());
+		
 		Product product = productMapper.toProduct(productAddEvent);
 		product.setCreatedDate(new Date());
 		product.setLastModifiedDate(new Date());
 		product.setActive(true);
-		product.setCreatedBy(productAddEvent.getSellerId());
-		product.setLastModifiedBy(productAddEvent.getSellerId());
+		product.setCreatedBy(seller.getUserIdId());
+		product.setLastModifiedBy(seller.getUserIdId());
 		product = productRepository.save(product);
 		return productMapper.toProductResponseInfo(product);
 	}

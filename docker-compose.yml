@@ -34,12 +34,12 @@ services:
     networks:
       - e-auction-network
       
-  seller-service:
-    image: arkit/cognizant-e-auction:seller-service-docker-0.0.1
+  user-service:
+    image: arkit/cognizant-e-auction:user-service-docker-0.0.1
     build: .
     ports:
-      - "8005:8005"
-      - "5005:5005"
+      - "8009:8009"
+      - "5009:5009"
     restart: always
     depends_on:
       - config-service
@@ -63,12 +63,12 @@ services:
     networks:
       - e-auction-network
       
-  buyer-service:
-    image: arkit/cognizant-e-auction:buyer-service-docker-0.0.1
+  bid-service:
+    image: arkit/cognizant-e-auction:bid-service-docker-0.0.1
     build: .
     ports:
-      - "8004:8004"
-      - "5007:5007"
+      - "8010:8010"
+      - "5010:5010"
     restart: always
     depends_on:
       - config-service

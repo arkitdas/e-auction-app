@@ -1,5 +1,7 @@
 package com.cognizant.product.mapper;
 
+import javax.validation.Valid;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -8,6 +10,7 @@ import org.mapstruct.factory.Mappers;
 import com.cognizant.product.cqrs.commands.ProductAddCommand;
 import com.cognizant.product.cqrs.events.ProductAddEvent;
 import com.cognizant.product.model.Product;
+import com.cognizant.product.payload.ProductAddRequestInfo;
 import com.cognizant.product.payload.ProductInfo;
 import com.cognizant.product.payload.ProductResponseInfo;
 
@@ -24,7 +27,14 @@ public interface ProductMapper {
 	
 	ProductAddEvent toProductAddEvent(ProductInfo productInfo);
 	
-	ProductAddCommand toProductAddCommand(ProductInfo productInfo);
+	@Mappings({
+        @Mapping(target = "shortDescription", source = "product.shortDescription"),
+        @Mapping(target = "detailedDescription", source = "product.detailedDescription"),
+        @Mapping(target = "categopry", source = "product.categopry"),
+        @Mapping(target = "startingPrice", source = "product.startingPrice"),
+        @Mapping(target = "bidEndDate", source = "product.bidEndDate"),
+    })
+	ProductAddCommand toProductAddCommand(ProductAddRequestInfo productAddRequestInfo);
 	
 	@Mappings({
         @Mapping(target = "sellerId", source = "createdBy"),
