@@ -49,6 +49,8 @@ spring:
     console:
       enabled: true
       path: /h2-ui
+      settings:
+        web-allow-others: true
       
 
 server:

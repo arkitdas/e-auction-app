@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.cognizant.cqrs.core.infrastructure.CommandDispatcher;
 import com.cognizant.user.cqrs.commands.UserAddCommand;
@@ -53,7 +54,12 @@ public class UserController {
 		command.setId(UUID.randomUUID().toString());
 		commandDispatcher.send(command);
 		
-		URI location = new URI("/v1/user/email/"+userRequestInfo.getEmail());
+//		URI location = new URI("/v1/user/email/"+userRequestInfo.getEmail());
+		URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/email/{emailId}")
+                .buildAndExpand(userRequestInfo.getEmail())
+                .toUri();
 		HttpHeaders responseHeaders = new HttpHeaders();
 	    responseHeaders.setLocation(location);
 	    

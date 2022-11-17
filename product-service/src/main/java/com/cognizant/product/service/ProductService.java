@@ -53,8 +53,8 @@ public class ProductService {
 		product.setCreatedDate(new Date());
 		product.setLastModifiedDate(new Date());
 		product.setActive(true);
-		product.setCreatedBy(seller.getUserIdId());
-		product.setLastModifiedBy(seller.getUserIdId());
+		product.setCreatedBy(seller.getUserId());
+		product.setLastModifiedBy(seller.getUserId());
 		product = productRepository.save(product);
 		return productMapper.toProductResponseInfo(product);
 	}
