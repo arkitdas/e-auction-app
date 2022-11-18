@@ -2,6 +2,7 @@ package com.cognizant.product.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -48,7 +49,12 @@ public class ProductService {
 	
 	public ProductResponseInfo addProduct(ProductAddEvent productAddEvent) {
 		productAddEvent.getSeller().setUserType(UserType.Seller.toString());
-		UserResponseInfo seller = userClient.addUser(productAddEvent.getSeller());
+		
+		UserResponseInfo seller = userClient.getUserByEmailId(productAddEvent.getSeller().getEmail());
+
+		if(Objects.isNull(seller)) {
+			seller = userClient.addUser(productAddEvent.getSeller());
+		}
 		
 		Product product = productMapper.toProduct(productAddEvent);
 		product.setCreatedDate(new Date());

@@ -64,11 +64,12 @@ public class ProductController {
 		return new ResponseEntity<>(ApiResponse.ofSuccess(201, "Product added successfully"), responseHeaders, HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/seller/delete/{productId}")
-	public ResponseEntity<?> deleteProduct(@NotBlank(message = "Product ID cannot be blank") @PathVariable(value = "productId") String productId) throws ProductNotFoundException {
+	@DeleteMapping("/seller/{sellerId}/delete/{productId}")
+	public ResponseEntity<?> deleteProduct(@NotBlank(message = "Seller ID cannot be blank") @PathVariable(value = "sellerId") String sellerId,
+			@NotBlank(message = "Product ID cannot be blank") @PathVariable(value = "productId") String productId) throws ProductNotFoundException {
 		log.debug("deleteProduct  >>");
 		log.debug("productId [" + productId + "]");
-		ProductDeleteCommand command = ProductDeleteCommand.builder().productId(productId).build();
+		ProductDeleteCommand command = ProductDeleteCommand.builder().productId(productId).sellerId(sellerId).build();
 //		command.setId(productId);
 		commandDispatcher.send(command);
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, "Product Deleted Successfully"), HttpStatus.OK);

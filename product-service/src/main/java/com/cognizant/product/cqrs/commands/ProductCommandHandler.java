@@ -53,7 +53,7 @@ public class ProductCommandHandler implements CommandHandler{
 			throw new RuntimeException("Product cannot be deleted as it contains "+response.size()+" no of bids");
 		}
 		var aggregate = eventSourcingHandler.getById(command.getProductId());
-        aggregate.delete();
+        aggregate.delete(command.getSellerId());
         eventSourcingHandler.save(aggregate);
 	}
 

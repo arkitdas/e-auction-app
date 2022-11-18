@@ -14,4 +14,6 @@ import lombok.experimental.SuperBuilder;
 public class ProductDeleteEvent  extends BaseEvent{
 
 	private String productId;
+	
+	private String sellerId;
 }

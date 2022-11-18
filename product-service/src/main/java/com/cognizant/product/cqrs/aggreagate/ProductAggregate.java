@@ -58,13 +58,14 @@ public class ProductAggregate extends AggregateRoot {
 		this.active = true;
 	}
 	
-	public void delete() {
+	public void delete(String sellerId) {
 		if (!this.active) {
             throw new IllegalStateException("Product has already been deleted!");
         }
 		raiseEvent(ProductDeleteEvent.builder()
 			.id(this.id)
 			.productId(this.productId)
+			.sellerId(sellerId)
 			.build()
 		);
 	}
