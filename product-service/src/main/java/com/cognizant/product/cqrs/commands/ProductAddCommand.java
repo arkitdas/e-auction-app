@@ -11,6 +11,8 @@ import lombok.Data;
 public class ProductAddCommand extends BaseCommand {
 
 	private String shortDescription;
+	
+	private String productName;
 
 	private String detailedDescription;
 

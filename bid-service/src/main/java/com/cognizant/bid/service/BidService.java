@@ -122,7 +122,7 @@ public class BidService {
 	}
 	
 	@Transactional
-	public List<BidResponseInfo> getAllBidsDetailsByProduct(String productId) throws InvalidOperationException {
+	public List<BidResponseInfo> getAllBidsDetailsByProduct(String productId, Integer page, Integer size) throws InvalidOperationException {
 		Optional<List<BidDetails>> bidDetailsOp = bidDetailsRepository.findByProductId(productId);
 		if(bidDetailsOp.isEmpty()) {
 			throw new InvalidOperationException("No bids found for product id : "+productId);

@@ -17,6 +17,8 @@ import lombok.experimental.SuperBuilder;
 public class ProductAddEvent extends BaseEvent {
 	
 	private String productId;
+	
+	private String productName;
 
 	private String shortDescription;
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognizant.bid.cqrs.commands.BidAddCommand;
@@ -59,9 +60,10 @@ public class BidController {
 	}
 	
 	@GetMapping("/seller/show-bids/{productId}")
-	public ResponseEntity<?> getAllBidsForProducts(@NotBlank(message = "Product Id cannot be blank") @PathVariable(value="productId") String productId) throws InvalidOperationException  {
+	public ResponseEntity<?> getAllBidsForProducts(@NotBlank(message = "Product Id cannot be blank") @PathVariable(value="productId") String productId,
+			@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) throws InvalidOperationException  {
 		log.debug("productId [" + productId + "]");
-		return new ResponseEntity<>(ApiResponse.ofSuccess(200, bidService.getAllBidsDetailsByProduct(productId)), HttpStatus.OK);
+		return new ResponseEntity<>(ApiResponse.ofSuccess(200, bidService.getAllBidsDetailsByProduct(productId, page, size)), HttpStatus.OK);
 	}
 
 }

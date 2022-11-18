@@ -62,8 +62,11 @@ product:
   remote:
     services:
       user:
-        url:
-        name: user-service  
+        url: http://localhost:8090
+        name: user-service 
+      bid:
+        url: http://localhost:8090
+        name: bid-service  
                 
         
 eureka:

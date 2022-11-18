@@ -10,6 +10,8 @@ import lombok.Data;
 public class ProductDeleteCommand extends BaseCommand {
 
 	private String productId;
+	
+	private String sellerId;
 
 
 }

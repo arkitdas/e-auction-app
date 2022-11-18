@@ -13,6 +13,7 @@ import com.cognizant.product.cqrs.events.ProductAddEvent;
 import com.cognizant.product.exception.InvalidOperationException;
 import com.cognizant.product.exception.ProductNotFoundException;
 import com.cognizant.product.mapper.ProductMapper;
+import com.cognizant.product.meta.UserType;
 import com.cognizant.product.model.Product;
 import com.cognizant.product.payload.ProductInfo;
 import com.cognizant.product.payload.ProductResponseInfo;
@@ -46,7 +47,7 @@ public class ProductService {
 	}
 	
 	public ProductResponseInfo addProduct(ProductAddEvent productAddEvent) {
-		
+		productAddEvent.getSeller().setUserType(UserType.Seller.toString());
 		UserResponseInfo seller = userClient.addUser(productAddEvent.getSeller());
 		
 		Product product = productMapper.toProduct(productAddEvent);

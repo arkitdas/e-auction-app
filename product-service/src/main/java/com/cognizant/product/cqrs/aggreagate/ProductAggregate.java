@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 public class ProductAggregate extends AggregateRoot {
 
 	private String productId;
+	
+	private String productName;
 
 	private String shortDescription;
 
@@ -37,7 +39,9 @@ public class ProductAggregate extends AggregateRoot {
 			.categopry(command.getCategopry())
 			.startingPrice(command.getStartingPrice())
 			.bidEndDate(command.getBidEndDate())
-			.seller(command.getSeller()).build()
+			.seller(command.getSeller())
+			.productName(command.getProductName())
+			.build()
 		);
 	}
 
@@ -50,6 +54,7 @@ public class ProductAggregate extends AggregateRoot {
 		this.startingPrice = event.getStartingPrice();
 		this.bidEndDate = event.getBidEndDate();
 		this.seller = event.getSeller();
+		this.productName = event.getProductName();
 		this.active = true;
 	}
 	
@@ -59,6 +64,7 @@ public class ProductAggregate extends AggregateRoot {
         }
 		raiseEvent(ProductDeleteEvent.builder()
 			.id(this.id)
+			.productId(this.productId)
 			.build()
 		);
 	}
