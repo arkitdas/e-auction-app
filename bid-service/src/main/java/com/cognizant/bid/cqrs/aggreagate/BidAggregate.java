@@ -19,6 +19,8 @@ public class BidAggregate extends AggregateRoot {
 	
 	public BidAggregate(BidAddCommand command) {
 		raiseEvent(BidAddEvent.builder()
+			.id(command.getBidId())
+			.bidId(command.getBidId())
 			.productId(command.getId())
 			.bidAmount(command.getBidAmount())
 			.buyer(command.getBuyer())
@@ -27,7 +29,7 @@ public class BidAggregate extends AggregateRoot {
 	}
 
 	public void apply(BidAddEvent event) {
-		this.id = event.getProductId();
+		this.id = event.getBidId();
 		this.productId = event.getProductId();
 		this.bidAmount = event.getBidAmount();
 		this.buyer = event.getBuyer();

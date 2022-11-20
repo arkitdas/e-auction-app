@@ -1,5 +1,7 @@
 package com.cognizant.bid.controller;
 
+import java.util.UUID;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
@@ -46,6 +48,7 @@ public class BidController {
 	public ResponseEntity<?> placeBids(@RequestBody @Valid BidRequestInfo bidRequestInfo) throws Exception {
 		log.debug("bidRequestInfo [" + bidRequestInfo + "]");
 		BidAddCommand command = bidMapper.toBidAddCommand(bidRequestInfo);
+		command.setBidId(UUID.randomUUID().toString());
 		commandDispatcher.send(command);
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, "Bid placed successfully"), HttpStatus.OK);
 	}

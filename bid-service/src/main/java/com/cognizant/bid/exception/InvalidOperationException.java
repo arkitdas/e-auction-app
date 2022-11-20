@@ -2,7 +2,7 @@ package com.cognizant.bid.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class InvalidOperationException extends Exception{
+public class InvalidOperationException extends RuntimeException{
 
 	/**
 	 * 

@@ -7,6 +7,8 @@ import lombok.Data;
 
 @Data
 public class BidAddCommand extends BaseCommand {
+	
+	private String bidId;
 
 	private String productId;
 	

@@ -2,7 +2,7 @@ package com.cognizant.bid.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class BuyerNotFoundException extends Exception{
+public class BuyerNotFoundException extends RuntimeException{
 
 	/**
 	 * 

@@ -18,4 +18,6 @@ public interface BidDetailsRepository  extends JpaRepository<BidDetails, String>
 	
 	public Optional<List<BidDetails>> findByBuyerId(String buyerId);
 	
+	public Optional<BidDetails> findByProductIdAndBuyerId(String productId, String buyerId);
+	
 }
