@@ -4,6 +4,8 @@
 #set -u
 
 function create_user_and_database() {
+echo $1
+echo $2
     local database=$(echo $1 | tr ',' ' ' | awk  '{print $1}')
     local owner=$(echo $1 | tr ',' ' ' | awk  '{print $2}')
     echo "  Creating user and database '$database'"
