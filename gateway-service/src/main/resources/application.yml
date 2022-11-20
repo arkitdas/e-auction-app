@@ -4,22 +4,40 @@ spring:
     
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: "*"
+            allowed-methods: "*"
+            allowed-headers: "*"
       discovery:
         locator:
           enabled: true
       routes:
+      - id: authModule
+        uri: lb://auth-service
+        predicates:
+          - Path=/auth-service/**
+        filters:
+          - name: JwtAuthenticationFilter
       - id: productModule
         uri: lb://product-service
         predicates:
-        - Path=/product-service/**
+          - Path=/product-service/**
+        filters:
+          - name: JwtAuthenticationFilter
       - id: userModule
         uri: lb://user-service
         predicates:
-        - Path=/user-service/**
+          - Path=/user-service/**
+        filters:
+          - name: JwtAuthenticationFilter
       - id: bidModule
         uri: lb://bid-service
         predicates:
-        - Path=/bid-service/**
+          - Path=/bid-service/**
+        filters:
+          - name: JwtAuthenticationFilter
   config:
     import: "optional:configserver:http://config-service:8088"
 
