@@ -50,7 +50,13 @@ public class ProductService {
 	public ProductResponseInfo addProduct(ProductAddEvent productAddEvent) {
 		productAddEvent.getSeller().setUserType(UserType.Seller.toString());
 		
-		UserResponseInfo seller = userClient.getUserByEmailId(productAddEvent.getSeller().getEmail());
+		UserResponseInfo seller = null;
+		
+		try{
+			seller = userClient.getUserByEmailId(productAddEvent.getSeller().getEmail());
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 
 		if(Objects.isNull(seller)) {
 			seller = userClient.addUser(productAddEvent.getSeller());

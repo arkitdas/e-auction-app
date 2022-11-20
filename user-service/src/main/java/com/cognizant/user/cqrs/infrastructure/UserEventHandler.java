@@ -22,7 +22,7 @@ public class UserEventHandler implements EventHandler{
 	}
 	
 	@Override
-	public void on(UserDeleteEvent event) throws UserNotFoundException {
+	public void on(UserDeleteEvent event) {
 		userService.deleteUser(event);
 	}
 

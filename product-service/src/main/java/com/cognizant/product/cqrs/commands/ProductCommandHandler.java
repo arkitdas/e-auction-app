@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.cognizant.cqrs.core.handlers.EventSourcingHandler;
 import com.cognizant.product.client.BidClient;
 import com.cognizant.product.cqrs.aggreagate.ProductAggregate;
+import com.cognizant.product.exception.InvalidOperationException;
+import com.cognizant.product.exception.ProductNotFoundException;
 import com.cognizant.product.model.Product;
 import com.cognizant.product.payload.BidResponseInfo;
 import com.cognizant.product.repository.ProductRepository;
@@ -39,18 +41,18 @@ public class ProductCommandHandler implements CommandHandler{
 		
 		Optional<Product> productOp = productRepository.findByProductIdAndCreatedByAndActive(command.getProductId(), command.getSellerId(), true);
 		if(productOp.isEmpty()) {
-			throw new RuntimeException("No product found with product id "+command.getProductId());
+			throw new ProductNotFoundException("No product found with product id "+command.getProductId());
 		}
 		
 		Product product = productOp.get();
 		
 		if(new Date().after(product.getBidEndDate())) {
-			throw new RuntimeException("Product cannot be deleted after the bid end date");
+			throw new InvalidOperationException("Product cannot be deleted after the bid end date");
 		}
 		
 		List<BidResponseInfo> response = bidClient.getAllBidsForProducts(command.getProductId());
 		if(!Objects.isNull(response) && !response.isEmpty() && response.size()>0) {
-			throw new RuntimeException("Product cannot be deleted as it contains "+response.size()+" no of bids");
+			throw new InvalidOperationException("Product cannot be deleted as it contains "+response.size()+" no of bids");
 		}
 		var aggregate = eventSourcingHandler.getById(command.getProductId());
         aggregate.delete(command.getSellerId());

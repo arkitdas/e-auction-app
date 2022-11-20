@@ -1,6 +1,5 @@
 package com.cognizant.product.client;
 
-import java.util.List;
 import java.util.Objects;
 
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.cognizant.product.feign.UserFeignClient;
 import com.cognizant.product.payload.ApiResponse;
-import com.cognizant.product.payload.ProductResponseInfo;
 import com.cognizant.product.payload.UserRequestInfo;
 import com.cognizant.product.payload.UserResponseInfo;
 

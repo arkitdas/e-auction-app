@@ -2,7 +2,7 @@ package com.cognizant.user.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class InvalidOperationException extends Exception{
+public class InvalidOperationException extends RuntimeException{
 
 	/**
 	 * 

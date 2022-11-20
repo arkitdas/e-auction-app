@@ -2,7 +2,7 @@ package com.cognizant.user.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class UserNotFoundException extends Exception{
+public class UserNotFoundException extends RuntimeException{
 
 	/**
 	 * 
