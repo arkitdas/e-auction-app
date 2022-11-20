@@ -101,11 +101,11 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_MULTIPLE_DATABASES=authdb,postgres:biddb,postgres:productdb,postgres:productdb,postgres:userdb,postgres
+      - POSTGRES_MULTIPLE_DATABASES=postgres:authdb,postgres:biddb,postgres:productdb,postgres:userdb
     ports:
       - '5432:5432'
-    volumes::
-      - postgres-initdb:/docker-entrypoint-initdb.d 
+    volumes:
+      - ./:/docker-entrypoint-initdb.d
       - postgresdb:/var/lib/postgresql/data
     networks:
       - e-auction-network
@@ -152,6 +152,7 @@ services:
 volumes:
   postgresdb:
     driver: local
+  initdb:
   mongodb_data_container:
       
 networks:
