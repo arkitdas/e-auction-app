@@ -12,15 +12,19 @@ spring:
         uri: lb://product-service
         predicates:
         - Path=/product-service/**
-      - id: buyerModule
-        uri: lb://buyer-service
+      - id: userModule
+        uri: lb://user-service
         predicates:
-        - Path=/buyer-service/**
+        - Path=/user-service/**
+      - id: bidModule
+        uri: lb://bid-service
+        predicates:
+        - Path=/bid-service/**
   config:
     import: "optional:configserver:http://config-service:8088"
 
 server:
-  port: 8080
+  port: 8090
   servlet:
     context-path: /gateway-service
         
@@ -31,18 +35,27 @@ management:
       exposure:
         include: "*"
         
-                
+jwt:
+  secret: BvPHGM8C0ia4uOuxxqPD5DTbWC9F9TWvPStp3pb7ARo0oK2mJ3pd3YG4lxA9i8bj6OTbadwezxgeEByY
+  token:
+    validity: 86400000  #24h 
+  
+logstash:
+  service: localhost:5000
+  
+                    
 eureka:
   client:
     serviceUrl:
       #defaultZone: http://gintaa-app:passw0rd@${EUREKA_HOST:127.0.0.1}:${EUREKA_PORT:8001}/eureka/
-      defaultZone: http://localhost:8001/eureka/
+      defaultZone: http://${EUREKA_HOST:discovery-service}:${EUREKA_PORT:8001}/eureka/
     register-with-eureka: ${ENABLE_SERVICE_REGISTRATION:true}
     fetchRegistry: true
   instance:
-    lease-renewal-interval-in-seconds: 30
-    lease-expiration-duration-in-seconds: 90
-    instanceId: ${HOST_IP:127.0.0.1}
-    ip-address: ${HOST_IP:127.0.0.1}
-    hostname: ${HOST_NAME:localhost}   
+#    lease-renewal-interval-in-seconds: 30
+#    lease-expiration-duration-in-seconds: 90
+     preferIpAddress: true
+#    instanceId: ${HOST_IP:127.0.0.1}
+#    ip-address: ${HOST_IP:127.0.0.1}
+#    hostname: ${HOST_NAME:gateway-service}   
     
