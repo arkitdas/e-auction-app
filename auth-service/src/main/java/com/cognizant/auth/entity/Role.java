@@ -1,4 +1,4 @@
-package com.eauction.authservice.entity;
+package com.cognizant.auth.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,6 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Entity
-//@Table(name = "role")
 public class Role {
 
 	@Id

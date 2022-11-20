@@ -1,15 +1,17 @@
-package com.eauction.authservice.service;
-
-import com.eauction.authservice.entity.Signin;
-import com.eauction.authservice.exception.JwtAuthenticationException;
-import com.eauction.authservice.repository.SigninRepository;
-import com.eauction.authservice.util.JwtUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+package com.cognizant.auth.service;
 
 import java.util.Map;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cognizant.auth.entity.Signin;
+import com.cognizant.auth.exception.JwtAuthenticationException;
+import com.cognizant.auth.repository.SigninRepository;
+import com.cognizant.auth.util.JwtUtil;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service

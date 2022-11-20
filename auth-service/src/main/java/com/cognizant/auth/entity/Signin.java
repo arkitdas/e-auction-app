@@ -1,4 +1,4 @@
-package com.eauction.authservice.entity;
+package com.cognizant.auth.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,10 +26,4 @@ public class Signin {
 
 	@Column(name  = "role")
 	private String role;
-	
-//	@ManyToMany(fetch = FetchType.EAGER)
-//	@JoinTable(name = "signin_role",
-//		joinColumns = { @JoinColumn(name = "signin_id") },
-//		inverseJoinColumns = { @JoinColumn(name = "role_id") })
-//	private List<Role> role;
 }

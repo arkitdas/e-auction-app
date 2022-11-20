@@ -1,13 +1,14 @@
-package com.eauction.authservice.controller;
+package com.cognizant.auth.controller;
 
-import com.eauction.authservice.entity.Signin;
-import com.eauction.authservice.service.AuthService;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import com.cognizant.auth.entity.Signin;
+import com.cognizant.auth.service.AuthService;
 
 @RestController
 public class AuthController {

@@ -1,4 +1,4 @@
-package com.eauction.authservice.exception;
+package com.cognizant.auth.exception;
 
 public class JwtAuthenticationException extends RuntimeException {
 

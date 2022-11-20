@@ -1,17 +1,23 @@
-package com.eauction.authservice.util;
-
-import com.eauction.authservice.entity.Signin;
-import com.eauction.authservice.exception.JwtAuthenticationException;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+package com.cognizant.auth.util;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import com.cognizant.auth.entity.Signin;
+import com.cognizant.auth.exception.JwtAuthenticationException;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
@@ -25,9 +31,8 @@ public class JwtUtil {
 
     public Claims getClaims(String token) {
         try {
-            Claims body = Jwts.parserBuilder()
-                    .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
-                    .build()
+            Claims body = Jwts.parser()
+                    .setSigningKey(jwtSecret)
                     .parseClaimsJws(token)
                     .getBody();
             return body;
@@ -51,17 +56,13 @@ public class JwtUtil {
                 .setSubject(signin.getUsername())
                 .setIssuedAt(new Date(nowMillis))
                 .setExpiration(new Date(expMillis))
-                .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
     public void validateToken(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+        	Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
         } catch (SignatureException ex) {
             log.error("Exception while validating token info {}", ex.getMessage());
             throw new JwtAuthenticationException("Invalid JWT signature");

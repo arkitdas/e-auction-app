@@ -1,10 +1,11 @@
-package com.eauction.authservice.repository;
+package com.cognizant.auth.repository;
 
-import com.eauction.authservice.entity.Signin;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import com.cognizant.auth.entity.Signin;
 
 @Repository
 public interface SigninRepository extends JpaRepository<Signin, Long> {
