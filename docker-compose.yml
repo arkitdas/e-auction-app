@@ -27,6 +27,7 @@ services:
     build: .
     ports:
       - "8090:8090"
+      - "5090:5090"
     restart: always
     depends_on:
       - config-service

@@ -106,16 +106,17 @@ public class BidService {
 			throw new BuyerNotFoundException("No buyer found with email id :"+event.getEmail());
 		}
 
-		BidDetails bidDetail = bidDetailsRepository.getById(event.getBidId());
+		Optional<BidDetails> bidDetailOp = bidDetailsRepository.findByProductIdAndBuyerId(event.getProductId(), buyer.getUserId());
 		
-		if(Objects.isNull(bidDetail)) {
+		if(Objects.isNull(bidDetailOp.isEmpty())) {
 			throw new InvalidOperationException("Amount cannot be updated for bid id: "+event.getBidId());
-		} else if(!bidDetail.getBuyerId().equalsIgnoreCase(buyer.getUserId())) {
+		} else if(!bidDetailOp.get().getBuyerId().equalsIgnoreCase(buyer.getUserId())) {
 			throw new InvalidOperationException("Invalid bid details provided");
 		}else if(event.getBidAmount()  < productResponseInfo.getStartingPrice()) {
 			throw new InvalidOperationException("Invalid bid amount, amount less than starting price");
 		}
 		
+		BidDetails bidDetail = bidDetailOp.get();
 		bidDetail.setBidAmount(event.getBidAmount());
 		bidDetail.setLastModifiedDate(new Date());
 		bidDetail.setLastModifiedBy(buyer.getUserId());
