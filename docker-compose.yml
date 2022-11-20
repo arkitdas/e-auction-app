@@ -101,9 +101,11 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_MULTIPLE_DATABASES=authdb,postgres:biddb,postgres:productdb,postgres:productdb,postgres:userdb,postgres
     ports:
       - '5432:5432'
-    volumes: 
+    volumes::
+      - postgresdb:/docker-entrypoint-initdb.d 
       - postgresdb:/var/lib/postgresql/data
     networks:
       - e-auction-network
