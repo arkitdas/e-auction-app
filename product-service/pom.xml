@@ -30,6 +30,7 @@
 		<docker.image.prefix>arkit/cognizant-e-auction</docker.image.prefix>
         <docker.image.name>product-service-docker</docker.image.name>
         <logstash.encoder.version>7.2</logstash.encoder.version>
+        <org.postgresql-version>42.2.12</org.postgresql-version>
 	</properties>
 	<dependencies>
 		<dependency>

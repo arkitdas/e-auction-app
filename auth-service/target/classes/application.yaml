@@ -8,7 +8,7 @@ spring:
 #    driverClassName: org.h2.Driver
     
     datasource:
-    url: jdbc:postgresql://${POSTGRESQL_HOST:localhost}:${POSTGRESQL_PORT:5432}/${POSTGRESQL_DATABASE:authdb}
+    url: jdbc:postgresql://${POSTGRESQL_HOST:postgresdb}:${POSTGRESQL_PORT:5432}/${POSTGRESQL_DATABASE:authdb}
     username: ${POSTGRESQL_USERNAME:postgres}
     password: ${POSTGRESQL_PASSWORD:postgres}
     
