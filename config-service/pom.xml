@@ -17,6 +17,7 @@
 		
 		<docker.image.prefix>arkit/cognizant-e-auction</docker.image.prefix>
         <docker.image.name>config-service-docker</docker.image.name>
+        <logstash.encoder.version>7.2</logstash.encoder.version>
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -30,6 +31,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-config-server</artifactId>
 		</dependency>
+		
+		<dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash.encoder.version}</version>
+        </dependency>
 	</dependencies>
 
 	<dependencyManagement>

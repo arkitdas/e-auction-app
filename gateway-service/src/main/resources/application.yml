@@ -21,7 +21,7 @@ spring:
         predicates:
         - Path=/bid-service/**
   config:
-    import: "optional:configserver:http://localhost:8088"
+    import: "optional:configserver:http://config-service:8088"
 
 server:
   port: 8090

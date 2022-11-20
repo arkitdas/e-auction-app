@@ -1,12 +1,7 @@
 spring:
   application:
     name: auth-service
-  datasource:
-#    url: jdbc:h2:mem:authdb;MODE=MySQL
-#    username: root
-#    password: password
-#    driverClassName: org.h2.Driver
-    
+  datasource:    
     datasource:
     url: jdbc:postgresql://${POSTGRESQL_HOST:postgresdb}:${POSTGRESQL_PORT:5432}/${POSTGRESQL_DATABASE:authdb}
     username: ${POSTGRESQL_USERNAME:postgres}
@@ -21,7 +16,7 @@ spring:
     pathmatch:
        matching-strategy: ant_path_matcher
   config:
-    import: "optional:configserver:http://localhost:8088"
+    import: "optional:configserver:http://config-service:8088"
     
   h2:
     console:
