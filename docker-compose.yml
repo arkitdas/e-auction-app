@@ -105,7 +105,7 @@ services:
     ports:
       - '5432:5432'
     volumes::
-      - postgresdb:/docker-entrypoint-initdb.d 
+      - postgres-initdb:/docker-entrypoint-initdb.d 
       - postgresdb:/var/lib/postgresql/data
     networks:
       - e-auction-network
