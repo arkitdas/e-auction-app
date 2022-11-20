@@ -58,7 +58,10 @@ public class BidService {
 			//TODO place log "No user found with email id"+event.getBuyer().getEmail()
 		}
 		
-		user = userClient.addUser(event.getBuyer());
+		if(!Objects.isNull(user)) {
+			event.getBuyer().setUserType(UserType.Buyer.toString());
+			user = userClient.addUser(event.getBuyer());
+		}
 		
 		Optional<List<BidDetails>> bidDetailsOp = bidDetailsRepository.findByBuyerId(user.getUserId());
 		if(bidDetailsOp.isPresent() && bidDetailsOp.get().stream()
