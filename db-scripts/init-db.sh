@@ -1,7 +1,7 @@
 #!/bin/bash
 
-set -e
-set -u
+#set -e
+#set -u
 
 function create_user_and_database() {
     local database=$(echo $1 | tr ',' ' ' | awk  '{print $1}')
