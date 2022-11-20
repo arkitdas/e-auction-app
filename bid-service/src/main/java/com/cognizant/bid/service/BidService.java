@@ -110,7 +110,7 @@ public class BidService {
 		
 		if(Objects.isNull(bidDetail)) {
 			throw new InvalidOperationException("Amount cannot be updated for bid id: "+event.getBidId());
-		} else if(bidDetail.getBuyerId().equalsIgnoreCase(buyer.getUserId())) {
+		} else if(!bidDetail.getBuyerId().equalsIgnoreCase(buyer.getUserId())) {
 			throw new InvalidOperationException("Invalid bid details provided");
 		}else if(event.getBidAmount()  < productResponseInfo.getStartingPrice()) {
 			throw new InvalidOperationException("Invalid bid amount, amount less than starting price");

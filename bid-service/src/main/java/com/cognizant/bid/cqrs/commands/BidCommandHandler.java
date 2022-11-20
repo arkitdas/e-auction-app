@@ -93,7 +93,7 @@ public class BidCommandHandler implements CommandHandler{
 		
 		if(Objects.isNull(bidDetailOp.isEmpty())) {
 			throw new InvalidOperationException("No bid present for product id: "+command.getProductId());
-		} else if(bidDetailOp.get().getBuyerId().equalsIgnoreCase(buyer.getUserId())) {
+		} else if(!bidDetailOp.get().getBuyerId().equalsIgnoreCase(buyer.getUserId())) {
 			throw new InvalidOperationException("Invalid bid details provided");
 		}else if(bidDetailOp.get().getBidAmount()  < productResponseInfo.getStartingPrice()) {
 			throw new InvalidOperationException("Invalid bid amount, amount less than starting price");
