@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognizant.bid.cqrs.commands.BidAddCommand;
+import com.cognizant.bid.cqrs.commands.BidUpdateAmountCommand;
 import com.cognizant.bid.exception.InvalidOperationException;
 import com.cognizant.bid.mapper.BidMapper;
 import com.cognizant.bid.payload.ApiResponse;
@@ -57,7 +58,12 @@ public class BidController {
 	public ResponseEntity<?> updateBidAmount(@NotBlank(message = "Product Id cannot be blank") @PathVariable(value="productId") String productId,
 			@NotBlank(message = "Email Id cannot be blank") @PathVariable(value = "buyerEmailId") String buyerEmailId,
 			@NotBlank(message = "Bid amount cannot be blank") @PathVariable(value = "newBidAmount") double newBidAmount) throws Exception {
-		
+		BidUpdateAmountCommand command = BidUpdateAmountCommand.builder()
+				.email(buyerEmailId)
+				.bidAmount(newBidAmount)
+				.productId(productId)
+				.build();
+		commandDispatcher.send(command);
 		log.debug("productId [" + productId + "] , buyerEmailId ["+buyerEmailId+"] , newBidAmount ["+newBidAmount+"]");
 		return new ResponseEntity<>(ApiResponse.ofSuccess(200, "Bid Amount updated successfully"), HttpStatus.OK);
 	}

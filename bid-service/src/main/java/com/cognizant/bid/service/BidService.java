@@ -72,7 +72,8 @@ public class BidService {
 		bidDetails.setBuyerId(user.getUserId());
 		bidDetails.setCreatedDate(new Date());
 		bidDetails.setLastModifiedDate(new Date());
-		bidDetails.setCreatedBy(user.getEmail());
+		bidDetails.setCreatedBy(user.getUserId());
+		bidDetails.setLastModifiedBy(user.getUserId());
 		bidDetails = bidDetailsRepository.save(bidDetails);
 		
 		BidResponseInfo bidResponseInfo = bidMapper.toBidResponseInfo(bidDetails);
@@ -113,6 +114,8 @@ public class BidService {
 		}
 		
 		bidDetail.setBidAmount(event.getBidAmount());
+		bidDetail.setLastModifiedDate(new Date());
+		bidDetail.setLastModifiedBy(buyer.getUserId());
 		bidDetail = bidDetailsRepository.save(bidDetail);
 		
 		return BidResponseInfo.builder().productId(bidDetail.getProductId())
