@@ -58,7 +58,7 @@ public class BidService {
 			//TODO place log "No user found with email id"+event.getBuyer().getEmail()
 		}
 		
-		if(!Objects.isNull(user)) {
+		if(Objects.isNull(user)) {
 			event.getBuyer().setUserType(UserType.Buyer.toString());
 			user = userClient.addUser(event.getBuyer());
 		}

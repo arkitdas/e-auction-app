@@ -28,6 +28,7 @@
 		
 		<docker.image.prefix>arkit/cognizant-e-auction</docker.image.prefix>
         <docker.image.name>user-service-docker</docker.image.name>
+        <logstash.encoder.version>7.2</logstash.encoder.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -184,6 +185,12 @@
 			<artifactId>spring-kafka-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash.encoder.version}</version>
+        </dependency>
 		
 	</dependencies>
 	

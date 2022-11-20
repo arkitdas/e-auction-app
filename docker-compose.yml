@@ -45,6 +45,7 @@ services:
       - config-service
       - discovery-service
       - postgresdb 
+      - kafka
     networks:
       - e-auction-network
       
@@ -60,6 +61,7 @@ services:
       - config-service
       - discovery-service
       - postgresdb 
+      - kafka
     networks:
       - e-auction-network
       
@@ -74,6 +76,22 @@ services:
       - config-service
       - discovery-service
       - postgresdb
+      - kafka
+    networks:
+      - e-auction-network
+      
+  auth-service:
+    image: arkit/cognizant-e-auction:auth-service-docker-0.0.1
+    build: .
+    ports:
+      - "8011:8011"
+      - "5011:5011"
+    restart: always
+    depends_on:
+      - config-service
+      - discovery-service
+      - postgresdb
+      - kafka
     networks:
       - e-auction-network
       

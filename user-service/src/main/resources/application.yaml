@@ -57,8 +57,12 @@ server:
   port: 8009
   servlet:
     context-path: /user-service
+  
         
-        
+logstash:
+  service: localhost:5000
+  
+          
         
 eureka:
   client:

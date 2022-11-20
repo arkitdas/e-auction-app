@@ -30,6 +30,7 @@
         <docker.image.name>auth-service-docker</docker.image.name>
         
         <jjwt.version>0.9.1</jjwt.version>
+        <logstash.encoder.version>7.2</logstash.encoder.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -185,6 +186,12 @@
 			<artifactId>jjwt</artifactId>
 			<version>${jjwt.version}</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash.encoder.version}</version>
+        </dependency>
 	</dependencies>
 	
 	<dependencyManagement>

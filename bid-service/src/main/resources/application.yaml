@@ -67,7 +67,12 @@ bid:
         name: product-service 
       user:
         url: http://localhost:8090
-        name: user-service        
+        name: user-service  
+        
+        
+logstash:
+  service: localhost:5000
+        
 eureka:
   client:
     serviceUrl:
