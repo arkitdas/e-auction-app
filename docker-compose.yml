@@ -170,7 +170,6 @@ services:
       - "5044:5044"
     networks:
       - e-auction-network
-    mem_limit: "5G"
       
 volumes:
   postgresdb:

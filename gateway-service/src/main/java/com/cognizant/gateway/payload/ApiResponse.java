@@ -6,13 +6,15 @@ import lombok.Getter;
 import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
+import java.io.Serializable;
+
 /**
  * @author Arkit Das
  */
 @Getter
 @ToString
 @Builder
-public class ApiResponse<T> {
+public class ApiResponse<T> implements Serializable {
 
 	private boolean success;
 	private int code;
