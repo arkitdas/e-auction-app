@@ -79,7 +79,7 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
             if (!(path.contains("/seller") && role.equals("ROLE_SELLER")) &&
                     !(path.contains("/buyer") && role.equals("ROLE_BUYER")) && 
                     !(path.contains("/product") && (role.equals("ROLE_BUYER") || role.equals("ROLE_SELLER")))) {
-            	ApiResponse response = ApiResponse.ofFailure(HttpStatus.UNAUTHORIZED.value(), "Unauthorized Access, Invalid token");
+            	ApiResponse response = ApiResponse.ofFailure(HttpStatus.FORBIDDEN.value(), "Unauthorized Access, Invalid token");
             	
                 ServerHttpResponse httpResponse = exchange.getResponse();
                 httpResponse.setStatusCode(HttpStatus.FORBIDDEN);
