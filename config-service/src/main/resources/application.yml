@@ -3,8 +3,9 @@ server:
 spring:
   profiles:
     active: native
-  cloud: 
-    config:
-      server:
-        native:
-          search-locations: classpath:/config:
+  config:
+    server:
+      git:
+        uri: https://github.com/arkitdas/e-auction-app/tree/feature/cqrs-kafka/configs
+        search-paths: '{application}'
+        clone-on-start: true
