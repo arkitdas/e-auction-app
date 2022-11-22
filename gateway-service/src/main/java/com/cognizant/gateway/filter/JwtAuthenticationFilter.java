@@ -1,6 +1,5 @@
 package com.cognizant.gateway.filter;
 
-import com.cognizant.gateway.payload.ApiResponse;
 import org.apache.commons.lang3.SerializationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -9,11 +8,12 @@ import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import com.cognizant.gateway.payload.ApiResponse;
 import com.cognizant.gateway.util.JwtUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
 import reactor.core.publisher.Flux;
@@ -27,6 +27,9 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     public JwtAuthenticationFilter() {
         super(Config.class);
     }
+    
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public GatewayFilter apply(Config config) {
@@ -37,9 +40,15 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
 
                 ServerHttpResponse httpResponse = exchange.getResponse();
                 httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-                return httpResponse.writeWith(Flux.just(
-                        new DefaultDataBufferFactory().wrap(SerializationUtils.serialize(response))
-                ));
+                try {
+					return httpResponse.writeWith(Flux.just(
+//                        new DefaultDataBufferFactory().wrap(SerializationUtils.serialize(response))
+							new DefaultDataBufferFactory().wrap(SerializationUtils.serialize(objectMapper.writeValueAsBytes(response)))
+					));
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 //                return httpResponse.setComplete();
             };
 
@@ -51,22 +60,39 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
 
                 ServerHttpResponse httpResponse = exchange.getResponse();
                 httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-                return httpResponse.writeWith(Flux.just(
-                        new DefaultDataBufferFactory().wrap(SerializationUtils.serialize(response))
-                ));
+                try {
+					return httpResponse.writeWith(Flux.just(
+//                        new DefaultDataBufferFactory().wrap(SerializationUtils.serialize(response))
+							new DefaultDataBufferFactory().wrap(SerializationUtils.serialize(objectMapper.writeValueAsBytes(response)))
+					));
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 //                return httpResponse.setComplete();
             }
 
             Claims claims = jwtUtil.getClaims(token);
 
-            String role = String.valueOf(claims.get("role"));
+            String role = "ROLE_"+String.valueOf(claims.get("role"));
             String path = request.getURI().getPath();
             if (!(path.contains("/seller") && role.equals("ROLE_SELLER")) &&
                     !(path.contains("/buyer") && role.equals("ROLE_BUYER"))) {
-                ServerHttpResponse response = exchange.getResponse();
-                response.setStatusCode(HttpStatus.FORBIDDEN);
+            	ApiResponse response = ApiResponse.ofFailure(HttpStatus.UNAUTHORIZED.value(), "Unauthorized Access, Invalid token");
+            	
+                ServerHttpResponse httpResponse = exchange.getResponse();
+                httpResponse.setStatusCode(HttpStatus.FORBIDDEN);
+                try {
+					return httpResponse.writeWith(Flux.just(
+//                        new DefaultDataBufferFactory().wrap(SerializationUtils.serialize(response))
+							new DefaultDataBufferFactory().wrap(SerializationUtils.serialize(objectMapper.writeValueAsBytes(response)))
+					));
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
-                return response.setComplete();
+//                return response.setComplete();
             }
             return chain.filter(exchange);
         };
