@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-            if (!request.getHeaders().containsKey("Authorization")) {\
+            if (!request.getHeaders().containsKey("Authorization")) {
                 ApiResponse response = ApiResponse.ofFailure(HttpStatus.UNAUTHORIZED.value(), "Unauthorized Access, No Authorization header found");
 
                 ServerHttpResponse httpResponse = exchange.getResponse();
