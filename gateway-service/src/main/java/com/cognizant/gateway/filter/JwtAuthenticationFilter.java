@@ -37,10 +37,10 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
 
                 ServerHttpResponse httpResponse = exchange.getResponse();
                 httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-                httpResponse.writeWith(Flux.just(
+                return httpResponse.writeWith(Flux.just(
                         new DefaultDataBufferFactory().wrap(SerializationUtils.serialize(response))
                 ));
-                return httpResponse.setComplete();
+//                return httpResponse.setComplete();
             };
 
             String token = request.getHeaders().getOrEmpty("Authorization").get(0);
@@ -51,10 +51,10 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
 
                 ServerHttpResponse httpResponse = exchange.getResponse();
                 httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-                httpResponse.writeWith(Flux.just(
+                return httpResponse.writeWith(Flux.just(
                         new DefaultDataBufferFactory().wrap(SerializationUtils.serialize(response))
                 ));
-                return httpResponse.setComplete();
+//                return httpResponse.setComplete();
             }
 
             Claims claims = jwtUtil.getClaims(token);

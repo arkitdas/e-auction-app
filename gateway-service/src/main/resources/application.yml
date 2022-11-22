@@ -1,6 +1,8 @@
 spring:
   application:
     name: gateway-service
+  profiles:
+    active: native
     
   cloud:
     gateway:
@@ -18,8 +20,6 @@ spring:
         uri: lb://auth-service
         predicates:
           - Path=/auth-service/**
-        filters:
-          - name: JwtAuthenticationFilter
       - id: productModule
         uri: lb://product-service
         predicates:
