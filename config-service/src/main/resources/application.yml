@@ -3,15 +3,15 @@ server:
 spring:
   application:
     name: config-service
-  profiles:
-    active: native
+#  profiles:
+#    active: native
   cloud:
     config:
       server:
-        native:
-          search-locations: classpath:/configs
-#        git:
-#          uri: https://github.com/pavankumar-mca51/e-auction-config
+#        native:
+#          search-locations: classpath:/configs
+        git:
+          uri: https://github.com/arkitdas/e-auction-app/tree/feature/cqrs-kafka/configs
 #          search-paths: '{application}'
 #          clone-on-start: true
           
