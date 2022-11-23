@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<property name="LOG_PATH" value="${user.home}/E-AUCTION/log/config-service" />
-	<property name="LOG_FILE" value="user.log" />
+	<property name="LOG_FILE" value="config.log" />
 
 	<!-- <property name="E-AUCTION_LOG_PATTERN"
 		value="%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n" /> -->
