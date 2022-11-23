@@ -6,7 +6,7 @@ spring:
   cloud:
     config:
       server:
-        default:
+        native:
           searchLocations: classpath:/configs
 #        git:
 #          uri: https://github.com/pavankumar-mca51/e-auction-config
