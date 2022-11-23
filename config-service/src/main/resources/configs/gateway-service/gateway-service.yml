@@ -1,0 +1,81 @@
+spring:
+  application:
+    name: gateway-service
+  main:
+    web-application-type: reactive
+  profiles:
+    active: native
+    
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: "*"
+            allowed-methods: "*"
+            allowed-headers: "*"
+      discovery:
+        locator:
+          enabled: true
+      routes:
+      - id: authModule
+        uri: lb://auth-service
+        predicates:
+          - Path=/auth-service/**
+      - id: productModule
+        uri: lb://product-service
+        predicates:
+          - Path=/product-service/**
+        filters:
+          - name: JwtAuthenticationFilter
+      - id: userModule
+        uri: lb://user-service
+        predicates:
+          - Path=/user-service/**
+        filters:
+          - name: JwtAuthenticationFilter
+      - id: bidModule
+        uri: lb://bid-service
+        predicates:
+          - Path=/bid-service/**
+        filters:
+          - name: JwtAuthenticationFilter
+  config:
+    import: "optional:configserver:http://config-service:8088"
+
+server:
+  port: 8090
+  servlet:
+    context-path: /gateway-service
+        
+        
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        
+jwt:
+  secret: BvPHGM8C0ia4uOuxxqPD5DTbWC9F9TWvPStp3pb7ARo0oK2mJ3pd3YG4lxA9i8bj6OTbadwezxgeEByY
+  token:
+    validity: 86400000  #24h 
+  
+logstash:
+  service: localhost:5000
+  
+                    
+eureka:
+  client:
+    serviceUrl:
+      #defaultZone: http://gintaa-app:passw0rd@${EUREKA_HOST:127.0.0.1}:${EUREKA_PORT:8001}/eureka/
+      defaultZone: http://${EUREKA_HOST:discovery-service}:${EUREKA_PORT:8001}/eureka/
+    register-with-eureka: ${ENABLE_SERVICE_REGISTRATION:true}
+    fetchRegistry: true
+  instance:
+#    lease-renewal-interval-in-seconds: 30
+#    lease-expiration-duration-in-seconds: 90
+     preferIpAddress: true
+#    instanceId: ${HOST_IP:127.0.0.1}
+#    ip-address: ${HOST_IP:127.0.0.1}
+#    hostname: ${HOST_NAME:gateway-service}   
+    
