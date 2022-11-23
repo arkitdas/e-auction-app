@@ -45,7 +45,8 @@ services:
     depends_on:
       - config-service
       - discovery-service
-      - postgresdb 
+      - postgresdb
+      - mongodb 
       - kafka
     networks:
       - e-auction-network
@@ -61,7 +62,8 @@ services:
     depends_on:
       - config-service
       - discovery-service
-      - postgresdb 
+      - postgresdb
+      - mongodb 
       - kafka
     networks:
       - e-auction-network
@@ -77,6 +79,7 @@ services:
       - config-service
       - discovery-service
       - postgresdb
+      - mongodb
       - kafka
     networks:
       - e-auction-network
@@ -92,6 +95,7 @@ services:
       - config-service
       - discovery-service
       - postgresdb
+      - mongodb
       - kafka
     networks:
       - e-auction-network
