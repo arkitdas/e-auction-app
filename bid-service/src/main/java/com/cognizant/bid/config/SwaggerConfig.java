@@ -1,42 +1,38 @@
 package com.cognizant.bid.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
-import springfox.documentation.swagger.web.SwaggerResource;
-import springfox.documentation.swagger.web.SwaggerResourcesProvider;
-
+@EnableSwagger2WebMvc
 @Configuration
-@Primary
-public class SwaggerConfig implements SwaggerResourcesProvider {
+public class SwaggerConfig {
 
+	@Bean
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.select()
+				.apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
+				.paths(PathSelectors.regex("/.*"))
+				.build().apiInfo(apiEndPointsInfo());
+	}
 
-    @Override
-    public List<SwaggerResource> get() {
-        List<SwaggerResource> resources = new ArrayList<>();
-        resources.add(this.createSwaggerResource("lms", "/gintaa/api/category-management/v2/api-docs", "2.0"));
-        
-        return resources;
-    }
-
-    /**
-     * Create swagger resource for all microservices
-     *
-     * @param name
-     * @param location
-     * @param version
-     * @return
-     */
-    private SwaggerResource createSwaggerResource(String name, String location, String version) {
-        SwaggerResource swaggerResource = new SwaggerResource();
-        swaggerResource.setName(name);
-        swaggerResource.setLocation(location);
-        swaggerResource.setSwaggerVersion(version);
-        return swaggerResource;
-    }
-
-
+	private ApiInfo apiEndPointsInfo() {
+		return new ApiInfoBuilder().title("Bid Api Documentation")
+				.description("Bid Management REST API")
+				.contact(new Contact("E-auction", "http://www.e-auction.com/", null))
+				.license("Apache 2.0")
+				.licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+				.version("v1")
+				.build();
+	}
 }
+

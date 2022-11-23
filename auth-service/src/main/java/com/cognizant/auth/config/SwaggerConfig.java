@@ -1,4 +1,4 @@
-package com.cognizant.user.config;
+package com.cognizant.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,8 +26,8 @@ public class SwaggerConfig {
 	}
 
 	private ApiInfo apiEndPointsInfo() {
-		return new ApiInfoBuilder().title("Users Api Documentation")
-				.description("Users Management REST API")
+		return new ApiInfoBuilder().title("Auth Api Documentation")
+				.description("Auth Management REST API")
 				.contact(new Contact("E-auction", "http://www.e-auction.com/", null))
 				.license("Apache 2.0")
 				.licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")

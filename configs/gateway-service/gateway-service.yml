@@ -1,6 +1,8 @@
 spring:
   application:
     name: gateway-service
+  main:
+    web-application-type: reactive
   profiles:
     active: native
     
@@ -76,3 +78,4 @@ eureka:
 #    instanceId: ${HOST_IP:127.0.0.1}
 #    ip-address: ${HOST_IP:127.0.0.1}
 #    hostname: ${HOST_NAME:gateway-service}   
+    
