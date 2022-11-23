@@ -5,6 +5,8 @@ spring:
     name: config-service
   cloud:
     config:
+#      request-read-timeout:
+#      request-connect-timeout: 
       server:
         git:
           uri: https://github.com/arkitdas/config-repo.git
