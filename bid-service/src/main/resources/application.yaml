@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: bid-service
+  cloud:
+    config:
+      fail-fast: true
+  config:
+    import: "optional:configserver:http://config-service:8088"
+    
+server:
+  port: 8010
+  servlet:
+    context-path: /bid-service
+              
+logstash:
+  service: localhost:5000
+        

@@ -24,6 +24,7 @@
 		
 		<docker.image.prefix>arkit/cognizant-e-auction</docker.image.prefix>
         <docker.image.name>discovery-service-docker</docker.image.name>
+        <logstash.encoder.version>7.2</logstash.encoder.version>
 	</properties>
 
 	<dependencies>
@@ -62,6 +63,12 @@
 			<groupId>org.glassfish.jaxb</groupId>
 			<artifactId>jaxb-runtime</artifactId>
 		</dependency>
+		
+		<dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash.encoder.version}</version>
+        </dependency>
 	</dependencies>
 
 	<dependencyManagement>

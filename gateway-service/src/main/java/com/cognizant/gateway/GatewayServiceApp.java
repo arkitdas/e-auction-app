@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @EnableEurekaClient
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+@SpringBootApplication /* (exclude = { SecurityAutoConfiguration.class }) */
 @EnableConfigurationProperties
 public class GatewayServiceApp {
 

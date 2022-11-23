@@ -27,6 +27,7 @@ services:
     build: .
     ports:
       - "8090:8090"
+      - "5090:5090"
     restart: always
     depends_on:
       - config-service
@@ -34,17 +35,19 @@ services:
     networks:
       - e-auction-network
       
-  seller-service:
-    image: arkit/cognizant-e-auction:seller-service-docker-0.0.1
+  user-service:
+    image: arkit/cognizant-e-auction:user-service-docker-0.0.1
     build: .
     ports:
-      - "8005:8005"
-      - "5005:5005"
+      - "8009:8009"
+      - "5009:5009"
     restart: always
     depends_on:
       - config-service
       - discovery-service
-      - postgresdb 
+      - postgresdb
+      - mongodb 
+      - kafka
     networks:
       - e-auction-network
       
@@ -59,21 +62,41 @@ services:
     depends_on:
       - config-service
       - discovery-service
-      - postgresdb 
+      - postgresdb
+      - mongodb 
+      - kafka
     networks:
       - e-auction-network
       
-  buyer-service:
-    image: arkit/cognizant-e-auction:buyer-service-docker-0.0.1
+  bid-service:
+    image: arkit/cognizant-e-auction:bid-service-docker-0.0.1
     build: .
     ports:
-      - "8004:8004"
-      - "5007:5007"
+      - "8010:8010"
+      - "5010:5010"
     restart: always
     depends_on:
       - config-service
       - discovery-service
       - postgresdb
+      - mongodb
+      - kafka
+    networks:
+      - e-auction-network
+      
+  auth-service:
+    image: arkit/cognizant-e-auction:auth-service-docker-0.0.1
+    build: .
+    ports:
+      - "8011:8011"
+      - "5011:5011"
+    restart: always
+    depends_on:
+      - config-service
+      - discovery-service
+      - postgresdb
+      - mongodb
+      - kafka
     networks:
       - e-auction-network
       
@@ -83,26 +106,80 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_MULTIPLE_DATABASES=postgres:authdb,postgres:biddb,postgres:productdb,postgres:userdb
     ports:
       - '5432:5432'
-    volumes: 
+    volumes:
+      - ./db-scripts:/docker-entrypoint-initdb.d
       - postgresdb:/var/lib/postgresql/data
     networks:
       - e-auction-network
 
-  axonserver:
-    image: axoniq/axonserver:latest-dev
-    hostname: axonserver
+  mongodb:
+    image: mongo:latest
     ports:
-      - '8024:8024'
-      - '8124:8124'
-      - '8224:8224'
+      - 27018:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data_container:/data/db
     networks:
       - e-auction-network
+    mem_limit: "2G"
+      
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+    networks:
+      - e-auction-network
+  
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - e-auction-network
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+    networks:
+      - e-auction-network
+
+#  elk:
+#    image: sebp/elk
+#    ports:
+#      - "5601:5601"
+#      - "9200:9200"
+#      - "5044:5044"
+#    networks:
+#      - e-auction-network
       
 volumes:
   postgresdb:
     driver: local
+  initdb:
+  mongodb_data_container:
       
 networks:
   e-auction-network:
