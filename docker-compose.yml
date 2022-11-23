@@ -10,6 +10,7 @@ services:
 #      - discovery-service
     networks:
       - e-auction-network
+    mem_limit: "2G"
       
   discovery-service:
     image: arkit/cognizant-e-auction:discovery-service-docker-0.0.1
