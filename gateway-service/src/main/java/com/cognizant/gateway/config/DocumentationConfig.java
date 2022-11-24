@@ -12,7 +12,7 @@ import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
-public class DocumentationConfiguration {
+public class DocumentationConfig {
 
     private final RouteDefinitionLocator locator;
 
