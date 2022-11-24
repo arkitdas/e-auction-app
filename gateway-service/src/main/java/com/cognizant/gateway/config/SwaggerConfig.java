@@ -1,28 +1,28 @@
 package com.cognizant.gateway.config;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
+//
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.context.annotation.Primary;
+//
+//import springfox.documentation.swagger.web.SwaggerResource;
+//import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+//@Configuration
+//@Primary
+//public class SwaggerConfig implements SwaggerResourcesProvider {
+public class SwaggerConfig {
 
-import springfox.documentation.swagger.web.SwaggerResource;
-import springfox.documentation.swagger.web.SwaggerResourcesProvider;
-
-@Configuration
-@Primary
-public class SwaggerConfig implements SwaggerResourcesProvider {
-
-
-    @Override
-    public List<SwaggerResource> get() {
-        List<SwaggerResource> resources = new ArrayList<>();
-        resources.add(this.createSwaggerResource("user-service", "/user-service/v2/api-docs", "2.0"));
-        resources.add(this.createSwaggerResource("auth-service", "/auth-service/v2/api-docs", "2.0"));
-        resources.add(this.createSwaggerResource("bid-service", "/bid-service/v2/api-docs", "2.0"));
-        resources.add(this.createSwaggerResource("product-service", "/product-service/v2/api-docs", "2.0"));
-        return resources;
-    }
+//    @Override
+//    public List<SwaggerResource> get() {
+//        List<SwaggerResource> resources = new ArrayList<>();
+//        resources.add(this.createSwaggerResource("user-service", "/user-service/v2/api-docs", "2.0"));
+//        resources.add(this.createSwaggerResource("auth-service", "/auth-service/v2/api-docs", "2.0"));
+//        resources.add(this.createSwaggerResource("bid-service", "/bid-service/v2/api-docs", "2.0"));
+//        resources.add(this.createSwaggerResource("product-service", "/product-service/v2/api-docs", "2.0"));
+//        return resources;
+//    }
 
     /**
      * Create swagger resource for all microservices
@@ -32,13 +32,13 @@ public class SwaggerConfig implements SwaggerResourcesProvider {
      * @param version
      * @return
      */
-    private SwaggerResource createSwaggerResource(String name, String location, String version) {
-        SwaggerResource swaggerResource = new SwaggerResource();
-        swaggerResource.setName(name);
-        swaggerResource.setLocation(location);
-        swaggerResource.setSwaggerVersion(version);
-        return swaggerResource;
-    }
+//    private SwaggerResource createSwaggerResource(String name, String location, String version) {
+//        SwaggerResource swaggerResource = new SwaggerResource();
+//        swaggerResource.setName(name);
+//        swaggerResource.setLocation(location);
+//        swaggerResource.setSwaggerVersion(version);
+//        return swaggerResource;
+//    }
 
 
 }
