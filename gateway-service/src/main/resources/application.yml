@@ -40,6 +40,12 @@ spring:
           - Path=/bid-service/**
         filters:
           - name: JwtAuthenticationFilter
+      - id: swagger
+        predicates:
+          - Path=/v3/api-docs/**
+        filters:
+          - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v2/api-docs
+        uri: http://localhost:${server.port}
   config:
     import: "optional:configserver:http://config-service:8088"
 
