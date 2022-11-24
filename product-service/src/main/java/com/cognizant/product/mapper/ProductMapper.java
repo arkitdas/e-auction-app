@@ -28,6 +28,7 @@ public interface ProductMapper {
 	ProductAddEvent toProductAddEvent(ProductInfo productInfo);
 	
 	@Mappings({
+		@Mapping(target = "productName", source = "product.productName"),
         @Mapping(target = "shortDescription", source = "product.shortDescription"),
         @Mapping(target = "detailedDescription", source = "product.detailedDescription"),
         @Mapping(target = "categopry", source = "product.categopry"),
