@@ -1,5 +1,7 @@
 package com.cognizant.bid.payload;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +20,8 @@ public class BidResponseInfo {
 	private String productId;
 	
 	private double bidAmount;
+	
+	private Date createdDate;
 	
 	private UserResponseInfo buyer;
 }

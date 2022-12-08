@@ -142,6 +142,7 @@ public class BidService {
 							.productId(bidDetail.getProductId())
 							.bidId(bidDetail.getBidId())
 							.bidAmount(bidDetail.getBidAmount())
+							.createdDate(bidDetail.getCreatedDate())
 							.buyer(userClient.getUserByUserId(bidDetail.getBuyerId()))
 							.build();
 				}).collect(Collectors.toList());
