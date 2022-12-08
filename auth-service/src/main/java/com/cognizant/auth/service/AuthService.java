@@ -30,7 +30,7 @@ public class AuthService {
             log.info("Signing in success with username {}", signin.getUsername());
             Signin temp = signinEntity.get();
 
-            return Map.of("name", temp.getUsername(), "role", temp.getRole(), "token", jwtUtil.generateToken(temp));
+            return Map.of("username", temp.getUsername(), "role", temp.getRole(), "token", jwtUtil.generateToken(temp));
         }
 
         log.info("Signing in failed with username {}", signin.getUsername());

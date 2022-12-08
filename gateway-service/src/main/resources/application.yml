@@ -8,10 +8,12 @@ spring:
     
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
       globalcors:
         cors-configurations:
           '[/**]':
-            allowed-origins: "*"
+            allowed-origins: "http://localhost:4200"
             allowed-methods: "*"
             allowed-headers: "*"
       discovery:
