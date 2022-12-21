@@ -21,22 +21,22 @@ spring:
   
   data:
     mongodb:
-      host: mongodb
-      port: 27017
-      database: bids
-      username: root
-      password: password
-      authentication-database: admin
+      host: ${MONGO_HOST:mongodb}
+      port: ${MONGO_POST:27017}
+      database: ${MONGO_DATABASE:bids}
+      username: ${MONGO_USERNAME:root}
+      password: ${MONGO_PASSWORD:password}
+      authentication-database: ${MONGO_ADMIN_DATABASE:admin}
       
   kafka:
     producer:
-      bootstrap-servers: kafka:9092
+      bootstrap-servers: ${KAFKA_HOST:kafka}:${KAFKA_PORT:9092}
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     listener:
       ack-mode: MANUAL_IMMEDIATE
     consumer:
-      bootstrap-servers: kafka:9092
+      bootstrap-servers: ${KAFKA_HOST:kafka}:${KAFKA_PORT:9092}
       group-id: bidConsumer
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -65,10 +65,10 @@ bid:
   remote:
     services:
       product:
-        url: http://localhost:8090
+        url:
         name: product-service 
       user:
-        url: http://localhost:8090
+        url:
         name: user-service  
         
         
