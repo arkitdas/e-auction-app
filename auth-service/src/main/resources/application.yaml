@@ -57,6 +57,6 @@ eureka:
 #    lease-expiration-duration-in-seconds: 90
     preferIpAddress: true
 #    instanceId: ${HOST_IP:127.0.0.1}
-#    ip-address: ${HOST_IP:127.0.0.1}
+#    ip-address: ${EUREKA_INSTANCE_IP_ADDRESS:127.0.0.1}
 #    hostname: ${HOST_NAME:auth-service} 
     
